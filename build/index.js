@@ -20,7 +20,7 @@ const webpackConfig = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new HtmlWebpackPlugin({
-      title: "my-webpack-template",
+      title: "My Webpack Template",
       template: "index.html"
     }),
     new FriendlyErrorsPlugin()
@@ -45,14 +45,14 @@ const hotMiddleware = require("webpack-hot-middleware")(compiler, {
   heartbeat: 2000
 })
 
-compiler.plugin('compilation', function (compilation) {
-  compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
-    hotMiddleware.publish({
-      action: 'reload'
-    });
-    cb()
-  })
-});
+// compiler.plugin('compilation', function (compilation) {
+//   compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
+//     hotMiddleware.publish({
+//       action: 'reload'
+//     });
+//     cb()
+//   })
+// });
 
 app.use(hotMiddleware)
 app.use(devMiddleware)
