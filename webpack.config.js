@@ -1,6 +1,8 @@
 const path = require('path');
 const opn = require('opn');
 
+var app = require('express')();
+
 function resolve(file) {
   return path.resolve(__dirname, file)
 }
@@ -16,4 +18,16 @@ module.exports = {
   }
 };
 
-opn("http://www.baidu.com")
+app.get('/', function (req, res) {
+  res.send('Hello World');
+})
+
+var server
+
+server = app.listen(3000, function () {
+  var host = server.address().address;
+  var port = server.address().port;
+})
+
+
+opn("http://localhost:3000")
