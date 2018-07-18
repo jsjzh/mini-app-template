@@ -1,4 +1,5 @@
 const path = require('path');
+const opn = require('opn');
 
 function resolve(file) {
   return path.resolve(__dirname, file)
@@ -14,3 +15,5 @@ module.exports = {
     path: resolve('dist')
   }
 };
+
+opn("http://www.baidu.com")

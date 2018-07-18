@@ -1,5 +1,3 @@
-require("socket.io-client");
+let dom = document.getElementById("app");
 
-const socket = io.connect("ws://localhost:3000");
-
-console.log(socket);
+console.log(dom);
