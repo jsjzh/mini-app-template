@@ -7,7 +7,6 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const webpackConfig = {
-  entry: ["src/main.js"],
   output: {
     filename: "[name].js",
     path: resolve("dist")
@@ -30,11 +29,17 @@ function resolve(file) {
 const app = express();
 
 const compiler = webpack(webpackConfig);
-// const devMiddleware = require("webpack-dev-middleware")(compiler)
-// const hotMiddleware = require("webpack-hot-middleware")(compiler)
+const devMiddleware = require("webpack-dev-middleware")(compiler, {
+  publicPath: webpackConfig.output.publicPath,
+  quiet: true
+})
+const hotMiddleware = require("webpack-hot-middleware")(compiler, {
+  log: false,
+  heartbeat: 2000
+})
 
-// app.use(hotMiddleware)
-// app.use(devMiddleware)
+app.use(hotMiddleware)
+app.use(devMiddleware)
 
 app.use(express.static("static"));
 
