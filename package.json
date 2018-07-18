@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run build",
-    "build": "webpack --config build/webpack.config.js  --inline"
+    "build": "webpack --config build/webpack.config.js"
   },
   "author": "jsjzh",
   "license": "ISC",

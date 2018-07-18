@@ -1,21 +1,18 @@
-const opn = require('opn');
-const path = require('path');
+const opn = require("opn");
+const path = require("path");
 
-const express = require('express');
+const express = require("express");
 
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require("webpack");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const webpackConfig = {
-  entry: {
-    app: './src/main.js'
-  },
-  mode: 'development',
+  entry: ["src/main.js"],
   output: {
-    filename: '[name].js',
-    path: resolve('dist'),
-    publicPath: '/'
+    filename: "[name].js",
+    path: resolve("dist")
   },
+  mode: "development",
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
@@ -31,21 +28,15 @@ function resolve(file) {
 }
 
 const app = express();
+
 const compiler = webpack(webpackConfig);
+// const devMiddleware = require("webpack-dev-middleware")(compiler)
+// const hotMiddleware = require("webpack-hot-middleware")(compiler)
 
-const devMiddleware = require('webpack-dev-middleware')(compiler, {
-  publicPath: webpackConfig.output.publicPath,
-  quiet: true
-})
+// app.use(hotMiddleware)
+// app.use(devMiddleware)
 
-const hotMiddleware = require('webpack-hot-middleware')(compiler, {
-  log: false,
-  heartbeat: 2000
-})
-
-app.use(hotMiddleware)
-app.use(devMiddleware)
-app.use(express.static('static'));
+app.use(express.static("static"));
 
 app.listen(3000);
 

@@ -1,5 +1,5 @@
 let dom = document.getElementById("app");
 
 setTimeout(() => {
-  dom.style.color = "red";
+  dom.style.color = "green";
 }, 1000);
