@@ -1,16 +1,12 @@
-const path = require('path');
 const opn = require('opn');
+const path = require('path');
 
 const express = require('express');
-var app = express();
 
-function resolve(file) {
-  return path.resolve(__dirname, "../", file)
-}
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-console.log(resolve('dist'));
-
-module.exports = {
+const webpackConfig = {
   entry: {
     app: './src/main.js'
   },
@@ -19,15 +15,37 @@ module.exports = {
     filename: '[name].js',
     path: resolve('dist'),
     publicPath: '/'
-  }
-};
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
+    new HtmlWebpackPlugin({
+      title: "my-webpack-template",
+      template: "index.html"
+    })
+  ]
+}
 
-app.use(express.static('static'));
-app.use(express.static('src'));
+function resolve(file) {
+  return path.resolve(__dirname, "../", file)
+}
 
-app.get("/", function (req, res) {
-  res.sendFile(resolve("index.html"));
+const app = express();
+const compiler = webpack(webpackConfig);
+
+const devMiddleware = require('webpack-dev-middleware')(compiler, {
+  publicPath: webpackConfig.output.publicPath,
+  quiet: true
 })
+
+const hotMiddleware = require('webpack-hot-middleware')(compiler, {
+  log: false,
+  heartbeat: 2000
+})
+
+app.use(hotMiddleware)
+app.use(devMiddleware)
+app.use(express.static('static'));
 
 app.listen(3000);
 
