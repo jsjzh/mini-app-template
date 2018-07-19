@@ -25,9 +25,6 @@ const app = express()
 const compiler = webpack(webpackConfig)
 
 const devMiddleware = require('webpack-dev-middleware')(compiler, {
-  headers: {
-    "X-Custom-Header": "yes"
-  },
   publicPath: webpackConfig.output.publicPath,
   quiet: true
 })

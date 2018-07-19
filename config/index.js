@@ -1,5 +1,8 @@
 var path = require('path')
-var utils = require('./utils')
+
+function resolve(file) {
+  return path.resolve(__dirname, "../", file)
+}
 
 module.exports = {
   prod: {

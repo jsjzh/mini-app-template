@@ -29,6 +29,8 @@ DeprecationWarning: Tapable.plugin is deprecated. Use new API on `.hooks` instea
       ...
     }
 
+webpack 打包优化
+
 Tapable
 webpack4 编写插件原先的 tapable.plugin 被废除了，推荐使用 .hooks
 学习可以直接看 html-webpack-plugin 的插件源码

@@ -15,14 +15,14 @@ module.exports = merge(webpackBaseConfig, {
     publicPath: "/"
   },
   plugins: [
-    new HelloWorldWebpackPlugin(),
-    // new webpack.HotModuleReplacementPlugin(),
-    // new webpack.NoEmitOnErrorsPlugin(),
-    // new FriendlyErrorsPlugin(),
-    // new HtmlWebpackPlugin({
-    //   filename: 'index.html',
-    //   template: "index.html",
-    //   inject: true
-    // }),
+    // new HelloWorldWebpackPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
+    new FriendlyErrorsPlugin(),
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: "index.html",
+      inject: true
+    }),
   ]
 })
