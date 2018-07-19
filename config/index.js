@@ -1,5 +1,5 @@
-const path = require('path')
-const utils = require('./utils')
+var path = require('path')
+var utils = require('./utils')
 
 module.exports = {
   prod: {
@@ -23,8 +23,8 @@ module.exports = {
   },
   dev: {
     env: require('./dev.env'),
-    // port: process.env.PORT || 8080,
-    // autoOpenBrowser: true,
+    port: process.env.PORT || 8080,
+    autoOpenBrowser: true,
     // assetsSubDirectory: 'static',
     // assetsPublicPath: '/',
     // proxyTable: {

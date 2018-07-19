@@ -1,14 +1,14 @@
-const opn = require("opn");
-const path = require("path");
+var opn = require("opn");
+var path = require("path");
 
-const express = require("express");
+var express = require("express");
 
-const webpack = require("webpack");
-const merge = require("webpack-merge");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const FriendlyErrorsPlugin = require("friendly-errors-webpack-plugin");
+var webpack = require("webpack");
+var merge = require("webpack-merge");
+var HtmlWebpackPlugin = require("html-webpack-plugin");
+var FriendlyErrorsPlugin = require("friendly-errors-webpack-plugin");
 
-const webpackBaseConfig = {
+var webpackBaseConfig = {
   entry: {
     app: ["./src/index.js"]
   },
@@ -29,7 +29,7 @@ const webpackBaseConfig = {
   ]
 }
 
-const webpackDevConfig = {
+var webpackDevConfig = {
   mode: "production"
 }
 
@@ -43,17 +43,17 @@ function resolve(file) {
   return path.resolve(__dirname, "../", file)
 }
 
-const app = express();
+var app = express();
 
-const compiler = webpack(webpackConfig);
+var compiler = webpack(webpackConfig);
 webpack(webpackConfig, function () {})
 
-// const devMiddleware = require("webpack-dev-middleware")(compiler, {
+// var devMiddleware = require("webpack-dev-middleware")(compiler, {
 //   publicPath: webpackConfig.output.publicPath,
 //   quiet: true
 // })
 
-// const hotMiddleware = require("webpack-hot-middleware")(compiler, {
+// var hotMiddleware = require("webpack-hot-middleware")(compiler, {
 //   log: false,
 //   heartbeat: 2000
 // })
