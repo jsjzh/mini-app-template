@@ -8,6 +8,19 @@ webpack4 默认 entry 为 src/index.js
 
 webpack  --config path 指定 config 路径地址
 
+webpack plugin
+```
+class MyPlugin {
+  constructor(options) {
+
+  }
+  apply(compiler) {
+    console.log("success");
+  }
+}
+```
+plugins: [new MyPlugin({})]
+
 webpack-dev-server --inline
 HMR
 
