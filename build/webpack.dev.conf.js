@@ -5,7 +5,7 @@ var HtmlWebpackPlugin = require("html-webpack-plugin");
 var FriendlyErrorsPlugin = require("friendly-errors-webpack-plugin");
 var webpackBaseConfig = require('./webpack.base.conf');
 
-var HelloWorldWebpackPlugin = require("./plugins/hello-world-webpack-plugin");
+// var HelloWorldWebpackPlugin = require("./plugins/hello-world-webpack-plugin");
 
 module.exports = merge(webpackBaseConfig, {
   mode: "development",

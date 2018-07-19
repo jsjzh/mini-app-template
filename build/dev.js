@@ -52,6 +52,20 @@ var hotMiddleware = webpackHotMiddlerware(compiler, {
   log: false,
   heartbeat: 2000
 })
+
+// force page reload when html-webpack-plugin template changes
+// currently disabled until this is resolved:
+// https://github.com/jantimon/html-webpack-plugin/issues/680
+// compiler.plugin('compilation', function (compilation) {
+//   compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
+//     hotMiddleware.publish({ action: 'reload' })
+//     cb()
+//   })
+// })
+
+// handle fallback for HTML5 history API
+// app.use(require('connect-history-api-fallback')())
+
 // 将中间件分别装载
 app.use(hotMiddleware)
 app.use(devMiddleware)
