@@ -5,6 +5,8 @@ var HtmlWebpackPlugin = require("html-webpack-plugin");
 var FriendlyErrorsPlugin = require("friendly-errors-webpack-plugin");
 var webpackBaseConfig = require('./webpack.base.conf');
 
+var HelloWorldWebpackPlugin = require("./plugins/hello-world-webpack-plugin");
+
 module.exports = merge(webpackBaseConfig, {
   mode: "development",
   output: {
@@ -13,13 +15,14 @@ module.exports = merge(webpackBaseConfig, {
     publicPath: "/"
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
-    new FriendlyErrorsPlugin(),
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: "index.html",
-      inject: true
-    }),
+    new HelloWorldWebpackPlugin(),
+    // new webpack.HotModuleReplacementPlugin(),
+    // new webpack.NoEmitOnErrorsPlugin(),
+    // new FriendlyErrorsPlugin(),
+    // new HtmlWebpackPlugin({
+    //   filename: 'index.html',
+    //   template: "index.html",
+    //   inject: true
+    // }),
   ]
 })

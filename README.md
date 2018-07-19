@@ -10,19 +10,29 @@ webpack  --config path 指定 config 路径地址
 
 webpack plugin
 ```
-class MyPlugin {
-  constructor(options) {
+  class MyPlugin {
+    constructor(options) {
 
+    }
+    apply(compiler) {
+      console.log("success");
+    }
   }
-  apply(compiler) {
-    console.log("success");
-  }
-}
 ```
 plugins: [new MyPlugin({})]
 
 webpack-dev-server --inline
 HMR
+
+DeprecationWarning: Tapable.plugin is deprecated. Use new API on `.hooks` instead
+    if (compiler.hooks) {
+      ...
+    }
+
+Tapable
+webpack4 编写插件原先的 tapable.plugin 被废除了，推荐使用 .hooks
+学习可以直接看 html-webpack-plugin 的插件源码
+https://segmentfault.com/a/1190000008060440
 
 https://www.cnblogs.com/wangpenghui522/p/6826182.html
 https://segmentfault.com/q/1010000011431180
