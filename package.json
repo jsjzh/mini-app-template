@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "npm run build",
-    "build": "node build"
+    "dev": "node build/dev.js",
+    "prod": "node build/prod.js"
   },
   "author": "jsjzh",
   "license": "ISC",

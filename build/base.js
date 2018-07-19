@@ -46,8 +46,7 @@ function resolve(file) {
 const app = express();
 
 const compiler = webpack(webpackConfig);
-webpack(webpackConfig, function () {
-})
+webpack(webpackConfig, function () {})
 
 // const devMiddleware = require("webpack-dev-middleware")(compiler, {
 //   publicPath: webpackConfig.output.publicPath,

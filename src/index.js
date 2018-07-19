@@ -1,7 +1,6 @@
 let dom = document.getElementById("app");
 
-console.log("123");
-console.log("123");
+dom.style.color = "red";
 
 console.log(module);
 
