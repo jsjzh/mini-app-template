@@ -1,9 +1,5 @@
 var config = require("../config")
-
-var utils = require("./utils")
-
 var path = require("path")
-
 var webpack = require("webpack")
 var merge = require("webpack-merge")
 var webpackBaseConfig = require("./webpack.base.conf")
@@ -86,7 +82,7 @@ module.exports = new Promise((resolve, reject) => {
     else {
       webpackDevConfig.devServer.port = port
       webpackDevConfig.plugins.push(new FriendlyErrorsPlugin({
-        clearConsole: false,
+        clearConsole: true,
         compilationSuccessInfo: {
           messages: [`your application is running here: http://${webpackDevConfig.devServer.host}:${port}`]
         },
