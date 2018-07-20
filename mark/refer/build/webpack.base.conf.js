@@ -3,29 +3,15 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
-var webpack = require('webpack')
-const manifest = require('../vendor-manifest.json')
 
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
 module.exports = {
+  context: path.resolve(__dirname, '../'),
   entry: {
-    app: 'src/main.js'
-    // app: ['babel-polyfill', './src/main.js'] // 引入babel-polyfill解决IE不识别ES6语法
-  },
-  externals: {
-    'BMap': 'BMap',
-    'echarts': 'echarts',
-    'lodash': '_',
-    'moment': 'moment',
-    'axios': 'axios',
-    'Rx': 'Rx',
-    'xlsx': 'XLSX',
-    'jsPDF': 'jsPDF',
-    'html2canvas': 'html2canvas',
-    'video.js': 'videojs'
+    app: './src/main.js'
   },
   output: {
     path: config.build.assetsRoot,
@@ -36,23 +22,11 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
-      // 'vue$': 'vue/dist/vue.esm.js',
+      'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
-      'src': path.resolve(__dirname, '../src'),
-      'assets': path.resolve(__dirname, '../src/assets')
+      'static': resolve('static'),
     }
   },
-  plugins: [
-    new webpack.ProvidePlugin({
-      '$': 'jquery',
-      'jQuery': 'jquery',
-      'jquery': 'jquery',
-      'window.jQuery': 'jquery'
-    }),
-    new webpack.DllReferencePlugin({
-      manifest
-    })
-  ],
   module: {
     rules: [{
         test: /\.vue$/,
@@ -62,8 +36,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('static/js')]
-        // include: [resolve('src'), resolve('test'), resolve('node_modules/.2.7.3@iview/src'), resolve('static/js')] // 解决ivew和js目录下的ES6语法兼容性问题
+        include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -90,5 +63,17 @@ module.exports = {
         }
       }
     ]
+  },
+  node: {
+    // prevent webpack from injecting useless setImmediate polyfill because Vue
+    // source contains it (although only uses it if it's native).
+    setImmediate: false,
+    // prevent webpack from injecting mocks to Node native modules
+    // that does not make sense for the client
+    dgram: 'empty',
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty',
+    child_process: 'empty'
   }
 }
