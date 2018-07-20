@@ -1,10 +1,11 @@
 var utils = require("./utils");
-const config = require('../config')
-
+var config = require('../config')
+const path = require('path')
 module.exports = {
-  context: utils.resolve('../'),
+  // webpack 处理打包文件的时候的初始目录
+  context: utils.resolve('./'),
   entry: {
-    app: [utils.resolve("src/index.js")]
+    app: './src/index.js'
   },
   output: {
     path: config.build.assetsRoot,

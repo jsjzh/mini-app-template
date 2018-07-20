@@ -1,22 +1,22 @@
-const config = require("../config")
+var config = require("../config")
 
-const utils = require("./utils")
+var utils = require("./utils")
 
-const path = require("path")
+var path = require("path")
 
-const webpack = require("webpack")
-const merge = require("webpack-merge")
-const webpackBaseConfig = require("./webpack.base.conf")
+var webpack = require("webpack")
+var merge = require("webpack-merge")
+var webpackBaseConfig = require("./webpack.base.conf")
 // html 模板插件
-const HtmlWebpackPlugin = require("html-webpack-plugin")
+var HtmlWebpackPlugin = require("html-webpack-plugin")
 // 更友好的提示插件
-const FriendlyErrorsPlugin = require("friendly-errors-webpack-plugin")
+var FriendlyErrorsPlugin = require("friendly-errors-webpack-plugin")
 // 获取一个可用的 port 的插件
-const portfinder = require("portfinder")
+var portfinder = require("portfinder")
 
-const devConfig = config.dev;
+var devConfig = config.dev;
 
-const webpackDevConfig = merge(webpackBaseConfig, {
+var webpackDevConfig = merge(webpackBaseConfig, {
   mode: "development",
   devtool: devConfig.devtool,
   devServer: {
@@ -54,7 +54,7 @@ const webpackDevConfig = merge(webpackBaseConfig, {
     // 和 FriendlyErrorsPlugin 配合食用更佳
     quiet: true,
     // 开启监听文件修改的功能，在 webpack-dev-server 和 webpack-dev-middleware 中是默认开始的
-    watch: true,
+    // watch: true,
     // 关于 watch 的一些选项配置
     watchOptions: {
       // 排除一些文件监听，这有利于提高性能
@@ -80,7 +80,7 @@ const webpackDevConfig = merge(webpackBaseConfig, {
 })
 
 module.exports = new Promise((resolve, reject) => {
-  portfinder = webpackDevConfig.devServer.port
+  portfinder.basePort = webpackDevConfig.devServer.port
   portfinder.getPort((err, port) => {
     if (err) reject(err)
     else {
@@ -88,10 +88,11 @@ module.exports = new Promise((resolve, reject) => {
       webpackDevConfig.plugins.push(new FriendlyErrorsPlugin({
         clearConsole: false,
         compilationSuccessInfo: {
-          messages: [`your application is running here: http://${webpackDevConfig.host}:${port}`]
+          messages: [`your application is running here: http://${webpackDevConfig.devServer.host}:${port}`]
         },
-        onErrors: devConfig.dev.notifyOnErrors ? console.log("your application error") : ""
+        onErrors: devConfig.notifyOnErrors ? utils.createNotifierCallback() : ""
       }))
     }
   })
+  resolve(webpackDevConfig)
 })
