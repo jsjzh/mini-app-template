@@ -22,6 +22,7 @@ webpack4 默认 entry 为 src/index.js
 
 webpack  --config path 指定 config 路径地址
 
+![图片](https://b-gold-cdn.xitu.io/v3/static/img/logo.a7995ad.svg)
 
 ~~asdasd~~
 webpack plugin
