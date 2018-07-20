@@ -10,9 +10,11 @@ var FriendlyErrorsPlugin = require("friendly-errors-webpack-plugin")
 // 获取一个可用的 port 的插件
 var portfinder = require("portfinder")
 
+var utils = require("./utils")
+
 var devConfig = config.dev;
 
-var webpackDevConfig = merge(webpackBaseConfig, {
+var devWebpackConfig = merge(webpackBaseConfig, {
   mode: "development",
   devtool: devConfig.devtool,
   devServer: {
@@ -32,7 +34,8 @@ var webpackDevConfig = merge(webpackBaseConfig, {
     // contentBase: false,
     // 一切服务都启用 gzip 压缩
     compress: true,
-    host: devConfig.host,
+    host: utils.getIPAdress(),
+    // host: devConfig.host,
     port: devConfig.port,
     // 是否自动打开浏览器
     open: devConfig.autoOpenBrowser,
@@ -77,19 +80,19 @@ var webpackDevConfig = merge(webpackBaseConfig, {
 })
 
 module.exports = new Promise((resolve, reject) => {
-  portfinder.basePort = webpackDevConfig.devServer.port
+  portfinder.basePort = devWebpackConfig.devServer.port
   portfinder.getPort((err, port) => {
     if (err) reject(err)
     else {
-      webpackDevConfig.devServer.port = port
-      webpackDevConfig.plugins.push(new FriendlyErrorsPlugin({
+      devWebpackConfig.devServer.port = port
+      devWebpackConfig.plugins.push(new FriendlyErrorsPlugin({
         clearConsole: true,
         compilationSuccessInfo: {
-          messages: [`your application is running here: http://${webpackDevConfig.devServer.host}:${port}`]
+          messages: [`your application is running here: http://${devWebpackConfig.devServer.host}:${port}`]
         },
         onErrors: devConfig.notifyOnErrors ? utils.createNotifierCallback() : ""
       }))
     }
   })
-  resolve(webpackDevConfig)
+  resolve(devWebpackConfig)
 })
