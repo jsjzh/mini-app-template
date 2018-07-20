@@ -38,11 +38,16 @@ webpack4 编写插件原先的 tapable.plugin 被废除了，推荐使用 .hooks
 学习可以直接看 html-webpack-plugin 的插件源码
 https://segmentfault.com/a/1190000008060440
 
+vue-loader
+https://vue-loader.vuejs.org/guide/#vue-cli
+
 https://www.cnblogs.com/wangpenghui522/p/6826182.html
 https://segmentfault.com/q/1010000011431180
 https://segmentfault.com/a/1190000011761345
 https://segmentfault.com/a/1190000011761306
 http://www.lixuejiang.me/2017/11/05/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96%E5%B0%8F%E7%BB%93/
+
+inline和HMR不同，inline是刷新页面，HMR是只刷新修改的部分。换句话说，HMR可以保留页面的状态，这在组件化开发的页面中会很有用。不过在实际开发过程中，不同的状态往往是互相关联的，所以HMR有时也不好用。但这个思想是比inline好些的。
 
 webpack-dev-middleware
 https://www.npmjs.com/package/webpack-dev-middleware

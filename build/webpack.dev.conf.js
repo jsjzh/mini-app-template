@@ -22,7 +22,7 @@ var webpackDevConfig = merge(webpackBaseConfig, {
     historyApiFallback: {
       rewrites: [{
         from: /.*/,
-        to: path.posix.join(devConfig.assetsPublicPath, 'index.html')
+        to: path.posix.join(devConfig.assetsPublicPath, "index.html")
       }]
     },
     // 启用 webpack 的模块热替换特性
@@ -54,6 +54,7 @@ var webpackDevConfig = merge(webpackBaseConfig, {
     // 关于 watch 的一些选项配置
     watchOptions: {
       // 排除一些文件监听，这有利于提高性能
+      // 但是这在应对需要 npm install 一些新的 module 的时候，就需要重启服务
       ignored: /node_modules/,
       // 是否开始轮询，有的时候文件已经更改了但是却没有被监听到，这时候就可以开始轮询
       poll: devConfig.poll
@@ -62,14 +63,14 @@ var webpackDevConfig = merge(webpackBaseConfig, {
   plugins: [
     // 这可以创建一个 在编译过程中的 全局变量
     new webpack.DefinePlugin({
-      'process.env': require('../config/dev.env')
+      "process.env": require("../config/dev.env")
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: 'index.html',
+      filename: "index.html",
+      template: "index.html",
       inject: true
     })
   ]
