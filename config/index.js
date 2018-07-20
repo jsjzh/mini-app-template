@@ -26,10 +26,15 @@ module.exports = {
   },
   dev: {
     env: require('./dev.env'),
-    port: process.env.PORT || 8080,
+    host: "localhost",
+    port: 8080,
     autoOpenBrowser: true,
-    // assetsSubDirectory: 'static',
-    // assetsPublicPath: '/',
+    devtool: 'cheap-module-eval-source-map',
+    errorOverlay: true,
+    assetsPublicPath: '/',
+    assetsSubDirectory: 'static',
+    poll: false,
+    proxyTable: {},
     // proxyTable: {
     //   '/ponysafety2/': {
     //     target: 'http://47.97.8.7:8080',
