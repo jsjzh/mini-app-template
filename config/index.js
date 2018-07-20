@@ -5,12 +5,12 @@ function resolve(file) {
 }
 
 module.exports = {
-  prod: {
+  build: {
     env: require('./prod.env'),
     // index: path.resolve(__dirname, '../dist/index.html'),
     // assetsRoot: path.resolve(__dirname, '../dist'),
     // assetsSubDirectory: 'static',
-    // assetsPublicPath: '/ponysafety2/',
+    assetsPublicPath: '/',
     // productionSourceMap: false,
     // // Gzip off by default as many popular static hosts such as
     // // Surge or Netlify already gzip all static assets for you.

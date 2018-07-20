@@ -17,6 +17,7 @@ const portfinder = require("portfinder")
 const devConfig = config.dev;
 
 const webpackDevConfig = merge(webpackBaseConfig, {
+  mode: "development",
   devtool: devConfig.devtool,
   devServer: {
     // 当使用内联模式(inline mode)时，在开发工具(DevTools)的控制台(console)将显示消息，如：在重新加载之前，在一个错误之前，或者模块热替换(Hot Module Replacement)启用时。这可能显得很繁琐。

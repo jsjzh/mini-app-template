@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "dev": "node build/dev.js",
-    "prod": "node build/prod.js",
+    "build": "node build/build.js",
     "start": "node run dev"
   },
   "author": "jsjzh",
