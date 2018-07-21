@@ -69,14 +69,6 @@ var devWebpackConfig = merge(webpackBaseConfig, {
       "process.env": require("../config/dev.env")
     }),
     new webpack.HotModuleReplacementPlugin(),
-    // 已经在 webpack 4.x 中被删除
-    // new webpack.NamedModulesPlugin(),
-    // 已经在 webpack 4.x 中被删除
-    // new webpack.NoEmitOnErrorsPlugin(),
-    // NoEmitOnErrorsPlugin
-    // ModuleConcatenationPlugin
-    // NamedModulesPlugin
-    // CommonsChunkPlugin
     new HtmlWebpackPlugin({
       filename: "index.html",
       template: "index.html",
@@ -98,7 +90,7 @@ module.exports = new Promise((resolve, reject) => {
         },
         onErrors: devConfig.notifyOnErrors ? utils.createNotifierCallback() : ""
       }))
+      resolve(devWebpackConfig)
     }
   })
-  resolve(devWebpackConfig)
 })

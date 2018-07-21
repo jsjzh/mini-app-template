@@ -20,9 +20,9 @@
 
 项目经理：我们要开始一个新的项目，裤裆你来负责项目构建吧。  
 我：好的没问题，稍等。  
-```
+```npm
 npm install vue-cli -g
-vue-cli init webpack -y new-project-name
+vue init webpack -y new-project-name
 ```
 项目经理：接下来呢？  
 我：接下来没了，可以开发了。 
@@ -120,7 +120,50 @@ vue-cli init webpack -y new-project-name
 
 webpack 4.x default entry 为 src/index.js
 
+## 让我们开始吧
+纯手工写一个 webpack 的配置，首先，我们需要建立项目的初始目录，这里参考了 vue-cli webpack 的目录的模板，将构建和基础配置分开存放，需要修改的时候修改 config 文件，比较方便（但其实如果要修改还真的不只是只修改 config 就行的）。
+
+
+别的不说，直接开始一套组合拳  
+
+别的不说，先创建项目目录。
+```
+md my-webpack-template
+cd my-webpack-template
+npm init -y
+```
+安装所需依赖，这里为了区分类别，没有将 install 的放在一起，下面有放在一起的版本，可以直接复制使用。
+```
+npm install webapck webpack-cli -D
+npm install webpack-dev-server -D
+npm install webpack-merge friendly-errors-webpack-plugin html-webpack-plugin -D
+npm install opn portfinder node-notifier -D
+```
+安装所需依赖的全套版本（若已经执行过上个操作这里就可以跳过）。
+```
+npm install webapck webpack-cli webpack-dev-server webpack-merge friendly-errors-webpack-plugin html-webpack-plugin opn portfinder node-notifier -D
+```
+
+### 你让我安装了什么？
+各位看官莫慌，且听我一一道来，我的废话比较多，这里不仅有介绍安装的东西是个啥，还有包括我寻找资料的时候的附带了解到的知识，各位看官不要错过了。
+
+- webapck webpack-cli
+  - 曾经他们是一体的，但是当 webpack 升级到 4.x 版本之后，为了体现出模块化的思想，他们被无情的拆分开了，原先好好的在一起的现在却突然被迫分开，心里自然是一万个不愿意，所以如果你没有同时安装他们 webpack 可是不会正常工作的。
+- webpack-dev-server
+  - 一开始我使用的是 express + webpack-dev-middleware + webpack-hot-middleware 搭建的服务
+
 ------------------------------------------------------------------------
+
+直接执行 webpack 可能会出错，因为没有安装全局的 webpack，其实这也是推荐的方法，那我们有两种方法启动它。
+直接调用 node_modules 下的 webpack
+另外有需要注意的，在 windows 下不能使用 ./，他会报错 . 模块找不到，将 / 改成 \ 即可
+.\node_modules\.bin\webpack --config webpack.config.js
+
+or
+
+使用 npm 去调用 他会默认使用当前项目下的模块
+package.json
+  scripts.build: webpack
 
 entry: { app: "src/main.js" }
 error
@@ -130,11 +173,13 @@ webpack  --config path 指定 config 路径地址
 
 ![图片](https://b-gold-cdn.xitu.io/v3/static/img/logo.a7995ad.svg)
 
-~~asdasd~~
+vue-loader 实现的功能
+
 webpack plugin
 ```javascript
   class MyPlugin {
     constructor(options) {
+      options = options || {};
     }
     apply(compiler) {
       console.log("success");
@@ -142,6 +187,7 @@ webpack plugin
   }
 ```
 plugins: [new MyPlugin({})]
+
 
 webpack-dev-server --inline
 HMR
@@ -181,20 +227,4 @@ connect-history-api-fallback
 https://segmentfault.com/a/1190000007890379
 该中间件是针对单页面应用（SPA）使用的。想想这样的场景，入口为 index.html，在浏览器地址为 www.mydomain.com，当使用 html5 中的 history 模式（比如 vue-router 中开启 history 模式）进行单页面中页面的跳转，跳转到 www.mydomain.com/list，页面，这个时候，如果进行了刷新操作，这个时候服务器就会去找寻 www.mydomain.com/list 的资源，但其实我们只是用了 history 进行页面导航而已，服务器并没有这个资源。
 
-Key	Command
-Ctrl + B	Toggle bold
-Ctrl + I	Toggle italic
 Alt + S	Toggle strikethrough
-Ctrl + Shift + ]	Toggle heading (uplevel)
-Ctrl + Shift + [	Toggle heading (downlevel)
-Ctrl + M	Toggle math environment
-Alt + C	Check/Uncheck task list item
-
-
-
-
-
-### webpack 4.x
-
-
-### 纯手工搭建一个 webpack 4.x 脚手架
