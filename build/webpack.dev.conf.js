@@ -69,8 +69,14 @@ var devWebpackConfig = merge(webpackBaseConfig, {
       "process.env": require("../config/dev.env")
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
+    // 已经在 webpack 4.x 中被删除
+    // new webpack.NamedModulesPlugin(),
+    // 已经在 webpack 4.x 中被删除
+    // new webpack.NoEmitOnErrorsPlugin(),
+    // NoEmitOnErrorsPlugin
+    // ModuleConcatenationPlugin
+    // NamedModulesPlugin
+    // CommonsChunkPlugin
     new HtmlWebpackPlugin({
       filename: "index.html",
       template: "index.html",

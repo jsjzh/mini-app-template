@@ -16,6 +16,41 @@
   - 支持打包 css
   - 支持将 img 转为 dataURL
 
+## 小剧场
+
+项目经理：我们要开始一个新的项目，裤裆你来负责项目构建吧。  
+我：好的没问题，稍等。  
+```
+npm install vue-cli -g
+vue-cli init webpack -y new-project-name
+```
+项目经理：接下来呢？  
+我：接下来没了，可以开发了。 
+
+![黑人问号脸](问号脸)
+
+项目经理：裤裆啊，过来，速度快是好事，但是我看你每次都是那么几步，能不能来点不一样的，你看那些面试官，面试手写一个 webpack 4.x 的配置，你知道怎么写么？  
+我：。。。  
+项目经理：（拂袖而去，远远地听到空中传来一句话）年轻人，切勿急躁，稳中求胜啊。  
+我：项目急的时候你不是这么说的。  
+项目经理：裤裆你说啥？  
+我：经理你说得对。  
+
+## 前言
+
+在面对一个新的项目的时候，网上的大量模板往往可以使我们在项目刚起步的时候少走很多弯路，可以把主要的精力放在业务上，等到后期项目庞大了，业务复杂了的时候再去做一些优化，这其中包括项目打包速度优化，项目打包体积优化（也可以看做是首屏加载优化），等等，但是，身为一个爱折腾的程序猿，面对这些模板，是的，我很好奇！
+
+![动漫图片 我很好奇！](很好奇)
+
+花了四五天的时间，看源码，查资料，搭建项目跑测试，终于对于手工搭建一个 webpack 配置有了一些心得，希望我的分享可以给同样想更深一步了解 webpack 这个神器的大家一些帮助，我会介绍 vue-cli webpack 的模板中用的各种插件的功能，并且也会介绍关于 webpack 4.x 的改变，其中也会有迁移项目到 webpack 4.x 的教程，最后会搭建一个基础的 webpack 脚手架配置，关于后续的脚手架升级扩展（ES6语法，图片转为 dataURL，CSS 打包，项目的打包优化，考虑新开一篇深度讨论）  
+当然，对于喜欢自己研究的大伙儿肯定不想只单单是看看文章，这里是我的项目地址，所有的代码我都加上了注释，希望大家看完之后赏个 star 吧。=3=
+
+## webpack 4.x 的一些新东西
+
+- mode
+
+------------------------------------------------------------------------
+
 entry: { app: "src/main.js" }
 error
 webpack4 默认 entry 为 src/index.js
@@ -26,7 +61,7 @@ webpack  --config path 指定 config 路径地址
 
 ~~asdasd~~
 webpack plugin
-```
+```javascript
   class MyPlugin {
     constructor(options) {
     }
@@ -46,6 +81,7 @@ DeprecationWarning: Tapable.plugin is deprecated. Use new API on `.hooks` instea
     }
 
 webpack 打包优化
+https://www.webpackjs.com/plugins/split-chunks-plugin/
 
 write-file-webpack-plugin 源码了解一下
 
