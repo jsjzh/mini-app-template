@@ -132,16 +132,20 @@ md my-webpack-template
 cd my-webpack-template
 npm init -y
 ```
+我的目录结构
+```
+
+```
 安装所需依赖，这里为了区分类别，没有将 install 的放在一起，下面有放在一起的版本，可以直接复制使用。
 ```
 npm install webapck webpack-cli -D
 npm install webpack-dev-server -D
 npm install webpack-merge friendly-errors-webpack-plugin html-webpack-plugin -D
-npm install opn portfinder node-notifier -D
+npm install opn portfinder -D
 ```
 安装所需依赖的全套版本（若已经执行过上个操作这里就可以跳过）。
 ```
-npm install webapck webpack-cli webpack-dev-server webpack-merge friendly-errors-webpack-plugin html-webpack-plugin opn portfinder node-notifier -D
+npm install webapck webpack-cli webpack-dev-server webpack-merge friendly-errors-webpack-plugin html-webpack-plugin opn portfinder -D
 ```
 
 ### 你让我安装了什么？
@@ -150,7 +154,142 @@ npm install webapck webpack-cli webpack-dev-server webpack-merge friendly-errors
 - webapck webpack-cli
   - 曾经他们是一体的，但是当 webpack 升级到 4.x 版本之后，为了体现出模块化的思想，他们被无情的拆分开了，原先好好的在一起的现在却突然被迫分开，心里自然是一万个不愿意，所以如果你没有同时安装他们 webpack 可是不会正常工作的。
 - webpack-dev-server
-  - 一开始我使用的是 express + webpack-dev-middleware + webpack-hot-middleware 搭建的服务
+  - 一开始我使用的是 express + webpack-dev-middleware + webpack-hot-middleware + connect-history-api-fallback 来搭建的本地开发服务器，但是到后面发现其实自己写肯定不如官方给的那么严谨，虽然用的中间件都差不多，但是相对于官方给的，自己写的还需要在应用的入口增加 webpack-hot-middleware/client?noInfo=true&reload=true 的参数，而且还要自己处理 module.hot.accept，还需要在 express 中配置静态文件的地址，如果有跨域的话还需要增加 http-proxy-middleware 中间件，太麻烦了，既然是自己配置，那自然是一切从简，如果有人想要自己 diy 一个 webpack-dev-server 的话，可以看看 build/dev.js 文件，那是我的第一版。
+- webapck-merge
+  - 用于合并 werbpack 配置的，一般我们会把 webpack 的 base 配置和 dev 配置 和 prod 配置分开写，用这个工具就可以很方便的合并 base 和 dev 的配置。
+- friendly-errors-webpack-plugin
+  - 一个用于处理打包这个进程的插件，可以清除打包时候残留的控制台信息，并且可以在控制台打印出打包成功之后的文字提示，当然，对于打包错误之后的回调也是有的。
+- html-webpack-plugin
+  - 各位应该用的很多了吧，用于生成一个 html 文件，并且可以在底部注入通过 webpack 打包好的 bundle.js 文件。
+- opn
+  - 一个可以帮你直接打开浏览器的工具，只要给他一个地址即可，在这里就是为了用着方便，可以直接打开已经跑成功了的项目。
+- portfinder
+  - 这也是一个比较好用的工具，不知道大家有没有碰到过端口被占用的时候，这个工具就是为此而生，他的回调会给予一个可以使用的端口。
+
+### 上配置
+首先是 build 目录下，因为是搭建开发环境，所以我们需要 webapck.base.conf.js 和 webpack.dev.conf.js 文件，并且，不要忘了在 config 目录下我们需要一个用于区分开发和生产环境配置的文件 index.js。
+
+webpack.base.conf.js
+```javascript
+const utils = require("./utils")
+const config = require("../config")
+
+module.exports = {
+  // webpack 处理打包文件的时候的初始目录
+  context: utils.resolve("./"),
+  entry: {
+    app: "./src/index.js"
+  },
+  output: {
+    path: config.build.assetsRoot,
+    filename: "[name].js",
+    publicPath: process.env.NODE_ENV === "production" ?
+      config.build.assetsPublicPath : config.dev.assetsPublicPath
+  }
+}
+```
+
+webapck.dev.conf.js
+```javascript
+var config = require("../config")
+var path = require("path")
+var webpack = require("webpack")
+var merge = require("webpack-merge")
+var webpackBaseConfig = require("./webpack.base.conf")
+// html 模板插件
+var HtmlWebpackPlugin = require("html-webpack-plugin")
+// 更友好的提示插件
+var FriendlyErrorsPlugin = require("friendly-errors-webpack-plugin")
+// 获取一个可用的 port 的插件
+var portfinder = require("portfinder")
+
+var utils = require("./utils")
+
+var devConfig = config.dev;
+
+var devWebpackConfig = merge(webpackBaseConfig, {
+  mode: "development",
+  devtool: devConfig.devtool,
+  devServer: {
+    // 当使用内联模式(inline mode)时，在开发工具(DevTools)的控制台(console)将显示消息，如：在重新加载之前，在一个错误之前，或者模块热替换(Hot Module Replacement)启用时。这可能显得很繁琐。
+    clientLogLevel: "warning",
+    // 当使用 HTML5 History API 时，任意的 404 响应都可能需要被替代为 index.html。通过传入以下启用
+    historyApiFallback: {
+      rewrites: [{
+        from: /.*/,
+        to: path.posix.join(devConfig.assetsPublicPath, "index.html")
+      }]
+    },
+    // 启用 webpack 的模块热替换特性
+    hot: true,
+    // 告诉服务器从哪里提供内容。只有在你想要提供静态文件时才需要。devServer.publicPath 将用于确定应该从哪里提供 bundle，并且此选项优先。
+    // 静态文件位置
+    // contentBase: false,
+    // 一切服务都启用 gzip 压缩
+    compress: true,
+    host: utils.getIPAdress(),
+    // host: devConfig.host,
+    port: devConfig.port,
+    // 是否自动打开浏览器
+    open: devConfig.autoOpenBrowser,
+    // 是否打开发现错误之后浏览器全屏幕显示错误信息功能
+    overlay: devConfig.errorOverlay ? {
+      warnings: false,
+      errors: true
+    } : false,
+    // 此路径下的打包文件可在浏览器中访问。
+    // 假设服务器运行在 http://localhost:8080 并且 output.filename 被设置为 bundle.js。默认 publicPath 是 "/"，所以你的包(bundle)可以通过 http://localhost:8080/bundle.js 访问。
+    publicPath: devConfig.assetsPublicPath,
+    // 启动接口访问代理
+    proxy: devConfig.proxyTable,
+    // 启用 quiet 后，除了初始启动信息之外的任何内容都不会被打印到控制台。这也意味着来自 webpack 的错误或警告在控制台不可见。
+    // 和 FriendlyErrorsPlugin 配合食用更佳
+    quiet: true,
+    // 开启监听文件修改的功能，在 webpack-dev-server 和 webpack-dev-middleware 中是默认开始的
+    // watch: true,
+    // 关于 watch 的一些选项配置
+    watchOptions: {
+      // 排除一些文件监听，这有利于提高性能
+      // 但是这在应对需要 npm install 一些新的 module 的时候，就需要重启服务
+      ignored: /node_modules/,
+      // 是否开始轮询，有的时候文件已经更改了但是却没有被监听到，这时候就可以开始轮询
+      poll: devConfig.poll
+    }
+  },
+  plugins: [
+    // 这可以创建一个 在编译过程中的 全局变量
+    new webpack.DefinePlugin({
+      "process.env": require("../config/dev.env")
+    }),
+    new webpack.HotModuleReplacementPlugin(),
+    new HtmlWebpackPlugin({
+      filename: "index.html",
+      template: "index.html",
+      inject: true
+    })
+  ]
+})
+
+module.exports = new Promise((resolve, reject) => {
+  portfinder.basePort = devWebpackConfig.devServer.port
+  portfinder.getPort((err, port) => {
+    if (err) reject(err)
+    else {
+      devWebpackConfig.devServer.port = port
+      devWebpackConfig.plugins.push(new FriendlyErrorsPlugin({
+        clearConsole: true,
+        compilationSuccessInfo: {
+          messages: [`your application is running here: http://${devWebpackConfig.devServer.host}:${port}`]
+        },
+        onErrors: devConfig.notifyOnErrors ? utils.createNotifierCallback() : ""
+      }))
+      resolve(devWebpackConfig)
+    }
+  })
+})
+```
+
+
 
 ------------------------------------------------------------------------
 
