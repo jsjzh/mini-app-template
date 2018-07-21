@@ -43,11 +43,82 @@ vue-cli init webpack -y new-project-name
 ![动漫图片 我很好奇！](很好奇)
 
 花了四五天的时间，看源码，查资料，搭建项目跑测试，终于对于手工搭建一个 webpack 配置有了一些心得，希望我的分享可以给同样想更深一步了解 webpack 这个神器的大家一些帮助，我会介绍 vue-cli webpack 的模板中用的各种插件的功能，并且也会介绍关于 webpack 4.x 的改变，其中也会有迁移项目到 webpack 4.x 的教程，最后会搭建一个基础的 webpack 脚手架配置，关于后续的脚手架升级扩展（ES6语法，图片转为 dataURL，CSS 打包，项目的打包优化，考虑新开一篇深度讨论）  
-当然，对于喜欢自己研究的大伙儿肯定不想只单单是看看文章，这里是我的项目地址，所有的代码我都加上了注释，希望大家看完之后赏个 star 吧。=3=
 
-## webpack 4.x 的一些新东西
+当然，对于喜欢自己研究的大伙儿肯定不想只单单是看看文章，[这里是我的项目地址](https://github.com/jsjzh/my-webpack-template)，所有的代码我都加上了注释，希望大家看完之后赏个 star 吧。=3=  
 
+另外，推荐大家直接看 webpack 的源站，虽然中文文档的确在初期给了我很多帮助，但是对于一些新的更新的东西，文档里面还是没有的（嘛，毕竟大佬们都是在自己的休息时间自愿帮忙的，我们也不能奢求太多）。推荐网易有道词典，划词直接翻译，对于阅读英文网站还是很有帮助的。  
+
+## webpack 4.x 的一些改变
+
+可以从最新的文档里面发现新增了两个配置项，mode 和 optimization，号称是零配置的 webpack 4.x 在设置了 mode 之后，的确减少了许多麻烦，下面会介绍因为你配置的 mode 的不同你的代码会受到的不同的对待。
+
+### mode 配置导致的那些不同与相同
 - mode
+  - development
+  - production
+- [optimization](https://webpack.js.org/configuration/optimization/)
+  - optimization.minimize
+    - 使用 UglifyjsWebpackPlugin 进行代码压缩
+    - production 为 true
+  - optimization.minimizer
+    - 你可以从这里配置 UglifyjsWebpackPlugin 代码压缩规则
+      - minimizer: [ new UglifyJsPlugin({ /* your config */ }) ]
+  - optimization.splitChunks
+    - 该配置用于代码分割打包，取代了曾经的 CommonsChunkPlugin 插件，这个插件就是优化相关的操作了，此篇搭建基础的 webapck 里暂时不细究。
+
+#### common
+- optimization.removeAvailableModules
+  - 如果 子模块 和 父模块 都加载了同一个 A模块 的时候，开启这个选项将会告诉 webpack 跳过在 子模块 中对 A模块 的检索，这可以加快打包速度。
+- optimization.removeEmptyChunks
+  - webpack 将会跳过打包一个空的模块。
+- optimization.mergeDuplicateChunks
+  - 告诉 webpack 合并一些包含了相同模块的块。
+
+#### development
+- devtool:eval
+  - 调试
+- cache:true
+  - 缓存模块, 避免在未更改时重建它们。
+- module.unsafeCache:true
+  - 缓存已解决的依赖项, 避免重新解析它们。
+- output.pathinfo:true
+  - 在 bundle 中引入「所包含模块信息」的相关注释
+- optimization.providedExports:true
+  - 在可能的情况下确定每个模块的导出,被用于其他优化或代码生成。
+- optimization.splitChunks:true
+  - 找到chunk中共享的模块,取出来生成单独的chunk
+- optimization.runtimeChunk:true
+  - 为 webpack 运行时代码创建单独的chunk
+- optimization.noEmitOnErrors:true
+  - 编译错误时不写入到输出
+- optimization.namedModules:true
+  - 给模块有意义的名称代替ids
+- optimization.namedChunks:true
+  - 给模chunk有意义的名称代替ids
+
+#### production
+- performance:{hints:"error"....}
+  - 性能相关配置
+- optimization.flagIncludedChunks:true
+  - 某些chunk的子chunk以一种方式被确定和标记,这些子chunks在加载更大的块时不必加载
+- optimization.occurrenceOrder:true
+  - 给经常使用的ids更短的值
+- optimization.usedExports:true
+  - 确定每个模块下被使用的导出
+- optimization.sideEffects:true
+  - 识别package.json or rules sideEffects 标志
+- optimization.concatenateModules:true
+  - 尝试查找模块图中可以安全连接到单个模块中的段。
+- optimization.minimize:true
+  - 使用uglify-js压缩代码
+
+#### 那些被忽略的
+- optimization.nodeEnv
+  - process.env.NODE_ENV
+- optimization.minimizer
+- optimization.mangleWasmImports
+
+webpack 4.x default entry 为 src/index.js
 
 ------------------------------------------------------------------------
 
@@ -118,6 +189,10 @@ Ctrl + Shift + ]	Toggle heading (uplevel)
 Ctrl + Shift + [	Toggle heading (downlevel)
 Ctrl + M	Toggle math environment
 Alt + C	Check/Uncheck task list item
+
+
+
+
 
 ### webpack 4.x
 
