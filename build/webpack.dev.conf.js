@@ -1,20 +1,14 @@
 var config = require("../config")
+var utils = require("./utils")
 var path = require("path")
 var webpack = require("webpack")
 var merge = require("webpack-merge")
-var webpackBaseConfig = require("./webpack.base.conf")
 // html 模板插件
 var HtmlWebpackPlugin = require("html-webpack-plugin")
-// 更友好的提示插件
-var FriendlyErrorsPlugin = require("friendly-errors-webpack-plugin")
-// 获取一个可用的 port 的插件
-var portfinder = require("portfinder")
-
-var utils = require("./utils")
-
+var webpackBaseConfig = require("./webpack.base.conf")
 var devConfig = config.dev;
 
-var devWebpackConfig = merge(webpackBaseConfig, {
+module.exports = merge(webpackBaseConfig, {
   mode: "development",
   devtool: devConfig.devtool,
   devServer: {
@@ -75,22 +69,4 @@ var devWebpackConfig = merge(webpackBaseConfig, {
       inject: true
     })
   ]
-})
-
-module.exports = new Promise((resolve, reject) => {
-  portfinder.basePort = devWebpackConfig.devServer.port
-  portfinder.getPort((err, port) => {
-    if (err) reject(err)
-    else {
-      devWebpackConfig.devServer.port = port
-      devWebpackConfig.plugins.push(new FriendlyErrorsPlugin({
-        clearConsole: true,
-        compilationSuccessInfo: {
-          messages: [`your application is running here: http://${devWebpackConfig.devServer.host}:${port}`]
-        },
-        onErrors: devConfig.notifyOnErrors ? utils.createNotifierCallback() : ""
-      }))
-      resolve(devWebpackConfig)
-    }
-  })
 })

@@ -121,12 +121,10 @@ vue init webpack -y new-project-name
 webpack 4.x default entry 为 src/index.js
 
 ## 让我们开始吧
-纯手工写一个 webpack 的配置，首先，我们需要建立项目的初始目录，这里参考了 vue-cli webpack 的目录的模板，将构建和基础配置分开存放，需要修改的时候修改 config 文件，比较方便（但其实如果要修改还真的不只是只修改 config 就行的）。
+纯手工写一个 webpack 的配置，首先，我们需要建立项目的初始目录，这里参考了 [vue-cli webpack](https://github.com/vuejs-templates/webpack) 的目录的模板，将构建和基础配置分开存放，需要修改的时候修改 config 文件，比较方便（但其实如果要修改还真的不只是只修改 config 就行的）。
 
 
-别的不说，直接开始一套组合拳  
-
-别的不说，先创建项目目录。
+别的咱不说了，先来一套组合拳  
 ```
 md my-webpack-template
 cd my-webpack-template
@@ -171,8 +169,8 @@ npm install webapck webpack-cli webpack-dev-server webpack-merge friendly-errors
 
 webpack.base.conf.js
 ```javascript
-const utils = require("./utils")
-const config = require("../config")
+var utils = require("./utils")
+var config = require("../config")
 
 module.exports = {
   // webpack 处理打包文件的时候的初始目录
@@ -317,7 +315,7 @@ vue-loader 实现的功能
 webpack plugin
 ```javascript
   class MyPlugin {
-    constructor(options) {
+    varructor(options) {
       options = options || {};
     }
     apply(compiler) {

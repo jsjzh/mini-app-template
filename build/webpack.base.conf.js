@@ -1,5 +1,5 @@
-const utils = require("./utils")
-const config = require("../config")
+var utils = require("./utils")
+var config = require("../config")
 
 module.exports = {
   // webpack 处理打包文件的时候的初始目录
