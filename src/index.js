@@ -1,6 +1,10 @@
 let dom = document.getElementById("app");
 
-dom.style.color = "red";
+let colorArr = ["red", "green", "blue"];
+
+let timer = setInterval(function () {
+  dom.style.color = colorArr[~~(Math.random() * colorArr.length)];
+}, 500)
 
 // if (module.hot) {
 //   module.hot.accept();
