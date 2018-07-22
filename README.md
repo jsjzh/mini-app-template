@@ -132,18 +132,43 @@ npm init -y
 ```
 我的目录结构
 ```
-
+|   .gitignore
+|   index.html
+|   package-lock.json
+|   package.json
+|   README.md
+|   
++---build
+|       build-server.js
+|       build.js
+|       dev.js
+|       utils.js
+|       webpack.base.conf.js
+|       webpack.dev.conf.js
+|       webpack.prod.conf.js
+|       
++---config
+|       dev.env.js
+|       index.js
+|       prod.env.js
+|       
++---src
+|       index.js
+|       
+\---static
+    \---image
+            cursor.png
 ```
 安装所需依赖，这里为了区分类别，没有将 install 的放在一起，下面有放在一起的版本，可以直接复制使用。
 ```
 npm install webapck webpack-cli -D
 npm install webpack-dev-server -D
 npm install webpack-merge friendly-errors-webpack-plugin html-webpack-plugin -D
-npm install opn portfinder -D
+npm install portfinder -D
 ```
 安装所需依赖的全套版本（若已经执行过上个操作这里就可以跳过）。
 ```
-npm install webapck webpack-cli webpack-dev-server webpack-merge friendly-errors-webpack-plugin html-webpack-plugin opn portfinder -D
+npm install webapck webpack-cli webpack-dev-server webpack-merge friendly-errors-webpack-plugin html-webpack-plugin portfinder -D
 ```
 
 ### 你让我安装了什么？
@@ -159,8 +184,6 @@ npm install webapck webpack-cli webpack-dev-server webpack-merge friendly-errors
   - 一个用于处理打包这个进程的插件，可以清除打包时候残留的控制台信息，并且可以在控制台打印出打包成功之后的文字提示，当然，对于打包错误之后的回调也是有的。
 - html-webpack-plugin
   - 各位应该用的很多了吧，用于生成一个 html 文件，并且可以在底部注入通过 webpack 打包好的 bundle.js 文件。
-- opn
-  - 一个可以帮你直接打开浏览器的工具，只要给他一个地址即可，在这里就是为了用着方便，可以直接打开已经跑成功了的项目。
 - portfinder
   - 这也是一个比较好用的工具，不知道大家有没有碰到过端口被占用的时候，这个工具就是为此而生，他的回调会给予一个可以使用的端口。
 
@@ -174,10 +197,20 @@ var config = require("../config")
 
 module.exports = {
   // webpack 处理打包文件的时候的初始目录
+  // utils.resolve 其实就是对 nodeJs 的 path 模块的包装
+  // 因为文件都是在 build 目录下
+  // 因为很多地方都要得到项目的初始目录
+  // 就包装了一下 path.resolve(__dirname, "../", file)
   context: utils.resolve("./"),
+  // 入口文件，webapck 4.x 默认的就是这儿
+  // 其实对于需要使用 ES6 语法转换的场景，这里还会需要一个 babel-polyfill
+  // 这个是对于一些 ES6 的函数的声明，和 babel-preset-env 进行的语法转义不同
+  // 比如 Array.from 这个在就是 ES6 新函数，是 babel-polyfill 做的事儿
+  // 而 () => {} 或者 let { name, age } = obj; 这就是 babel-preset-env 做的事情
   entry: {
     app: "./src/index.js"
   },
+  // 输出文件的目录
   output: {
     path: config.build.assetsRoot,
     filename: "[name].js",
@@ -305,6 +338,36 @@ module.exports = merge(webpackBaseConfig, {
 })
 ```
 
+build-server.js
+```javascript
+var utils = require("./utils")
+// 更友好的提示插件
+var FriendlyErrorsPlugin = require("friendly-errors-webpack-plugin")
+// 获取一个可用的 port 的插件
+var portfinder = require("portfinder")
+var devWebpackConfig = require("./webpack.dev.conf");
+
+// 导出一个 promise 函数，这可以让 wepback 接受一个异步加载的配置
+// 并在 resolve 的时候运行 这个配置
+// 比如这里我就用到了 portfinder 和 friendly-errors-webpack-plugin
+module.exports = new Promise((resolve, reject) => {
+  portfinder.basePort = devWebpackConfig.devServer.port
+  portfinder.getPort((err, port) => {
+    if (err) reject(err)
+    else {
+      devWebpackConfig.devServer.port = port
+      devWebpackConfig.plugins.push(new FriendlyErrorsPlugin({
+        clearConsole: true,
+        compilationSuccessInfo: {
+          messages: [`开发环境启动成功，项目运行在: http://${devWebpackConfig.devServer.host}:${port}`]
+        },
+        onErrors: utils.createNotifierCallback()
+      }))
+      resolve(devWebpackConfig)
+    }
+  })
+})
+```
 
 
 ------------------------------------------------------------------------
