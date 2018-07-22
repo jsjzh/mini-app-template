@@ -1,23 +1,32 @@
-# my-webpack-template
+# 超详细以至于被人当成话痨 webpack 4.x 纯手工搭建 基础开发环境
+
+![webpack](https://user-gold-cdn.xitu.io/2018/7/22/164c0198993dbc6b?w=497&h=270&f=jpeg&s=8974)
+
+> 向前看就是未来，向后看就是过去，从中取一段下来就是故事，而这只不过是那样的故事中很小的一部分而已。--- 灰色的果实
 
 ## 大纲
-
-- webpack 4.x 新特性
+- webpack 4.x 的那些新玩意儿
   - mode
-    - development
-    - production
-      - 代码混淆
-- 手工搭建 webpack 4.x 基础脚手架
-  - package.json 中 所有的 module 介绍
-  - webpack 插件介绍
-  - webpack 参数介绍
-- 基础脚手架升级版
-  - 支持转换 js 语法
-  - 支持打包 css
-  - 支持将 img 转为 dataURL
+  - optimization
+- 从 webpack 3.x 到 webpack 4.x 我应该做什么的
+- webpack 4.x 基础版开发环境详细配置
+  - package.json 中 的 devDependencies
+  - package.json 中 的 scripts
+  - build/webpack.base.conf.js 配置详解
+  - build/webpack.dev.conf.js 配置详解
+  - build/build-server.js 配置详解
+- webpack 4.x 升级版开发环境详细配置
+  - babel 支持 ES6 语法
+  - img 转为 dataURL
+  - 打包 css
+  - 使用 vue-loader 来完成更多
+  - 开发一个 webpack-plugin
+- webpack 4.x 生产环境详细配置
+- webpack 配置优化
+  - 打包速度优化
+  - 打包体积优化
 
 ## 小剧场
-
 项目经理：我们要开始一个新的项目，裤裆你来负责项目构建吧。  
 我：好的没问题，稍等。  
 ```npm
@@ -27,7 +36,7 @@ vue init webpack -y new-project-name
 项目经理：接下来呢？  
 我：接下来没了，可以开发了。 
 
-![黑人问号脸](问号脸)
+![黑人问号脸](https://user-gold-cdn.xitu.io/2018/7/22/164c00814127bdae?w=440&h=252&f=jpeg&s=17614)
 
 项目经理：裤裆啊，过来，速度快是好事，但是我看你每次都是那么几步，能不能来点不一样的，你看那些面试官，面试手写一个 webpack 4.x 的配置，你知道怎么写么？  
 我：。。。  
@@ -37,19 +46,17 @@ vue init webpack -y new-project-name
 我：经理你说得对。  
 
 ## 前言
-
 在面对一个新的项目的时候，网上的大量模板往往可以使我们在项目刚起步的时候少走很多弯路，可以把主要的精力放在业务上，等到后期项目庞大了，业务复杂了的时候再去做一些优化，这其中包括项目打包速度优化，项目打包体积优化（也可以看做是首屏加载优化），等等，但是，身为一个爱折腾的程序猿，面对这些模板，是的，我很好奇！
 
-![动漫图片 我很好奇！](很好奇)
+![~~我很好奇~~](https://user-gold-cdn.xitu.io/2018/7/22/164c00a4dc82038e?w=750&h=422&f=jpeg&s=35529)
 
-花了四五天的时间，看源码，查资料，搭建项目跑测试，终于对于手工搭建一个 webpack 配置有了一些心得，希望我的分享可以给同样想更深一步了解 webpack 这个神器的大家一些帮助，我会介绍 vue-cli webpack 的模板中用的各种插件的功能，并且也会介绍关于 webpack 4.x 的改变，其中也会有迁移项目到 webpack 4.x 的教程，最后会搭建一个基础的 webpack 脚手架配置，关于后续的脚手架升级扩展（ES6语法，图片转为 dataURL，CSS 打包，项目的打包优化，考虑新开一篇深度讨论）  
+花了四五天的时间，看源码，查资料，搭建项目跑测试，终于对于手工搭建一个 webpack 配置有了一些心得，希望我的分享可以给同样想更深一步了解 webpack 这个神器的大家一些帮助，我会介绍 vue-cli webpack 的模板中用的各种插件的功能，并且也会介绍关于 webpack 4.x 的改变，其中也会有迁移项目到 webpack 4.x 的教程，最后会搭建一个基础的 webpack 脚手架配置，关于后续的脚手架升级扩展（ES6语法，图片转为 dataURL，CSS 打包，项目的打包优化，会新开几篇着重讲讲）  
 
 当然，对于喜欢自己研究的大伙儿肯定不想只单单是看看文章，[这里是我的项目地址](https://github.com/jsjzh/my-webpack-template)，所有的代码我都加上了注释，希望大家看完之后赏个 star 吧。=3=  
 
 另外，推荐大家直接看 webpack 的源站，虽然中文文档的确在初期给了我很多帮助，但是对于一些新的更新的东西，文档里面还是没有的（嘛，毕竟大佬们都是在自己的休息时间自愿帮忙的，我们也不能奢求太多）。推荐网易有道词典，划词直接翻译，对于阅读英文网站还是很有帮助的。  
 
 ## webpack 4.x 的一些改变
-
 可以从最新的文档里面发现新增了两个配置项，mode 和 optimization，号称是零配置的 webpack 4.x 在设置了 mode 之后，的确减少了许多麻烦，下面会介绍因为你配置的 mode 的不同你的代码会受到的不同的对待。
 
 ### mode 配置导致的那些不同与相同
@@ -130,34 +137,21 @@ md my-webpack-template
 cd my-webpack-template
 npm init -y
 ```
-我的目录结构
+我的目录结构（列出主要的文件,只针对 dev 环境）
 ```
-|   .gitignore
-|   index.html
-|   package-lock.json
-|   package.json
-|   README.md
-|   
++---my-webpack-template
+|       index.html
+|       package.json
 +---build
-|       build-server.js
-|       build.js
-|       dev.js
 |       utils.js
+|       build-server.js
 |       webpack.base.conf.js
 |       webpack.dev.conf.js
-|       webpack.prod.conf.js
-|       
 +---config
-|       dev.env.js
 |       index.js
-|       prod.env.js
-|       
+|       dev.env.js
 +---src
 |       index.js
-|       
-\---static
-    \---image
-            cursor.png
 ```
 安装所需依赖，这里为了区分类别，没有将 install 的放在一起，下面有放在一起的版本，可以直接复制使用。
 ```
@@ -369,9 +363,7 @@ module.exports = new Promise((resolve, reject) => {
 })
 ```
 
-
-------------------------------------------------------------------------
-
+### 需要注意的小点
 直接执行 webpack 可能会出错，因为没有安装全局的 webpack，其实这也是推荐的方法，那我们有两种方法启动它。
 直接调用 node_modules 下的 webpack
 另外有需要注意的，在 windows 下不能使用 ./，他会报错 . 模块找不到，将 / 改成 \ 即可
@@ -383,15 +375,14 @@ or
 package.json
   scripts.build: webpack
 
-entry: { app: "src/main.js" }
-error
-webpack4 默认 entry 为 src/index.js
-
 webpack  --config path 指定 config 路径地址
 
-![图片](https://b-gold-cdn.xitu.io/v3/static/img/logo.a7995ad.svg)
-
-vue-loader 实现的功能
+Tapable
+webpack4 编写插件原先的 tapable.plugin 被废除了，推荐使用 .hooks
+DeprecationWarning: Tapable.plugin is deprecated. Use new API on `.hooks` instead
+if (compiler.hooks) {
+  ...
+}
 
 webpack plugin
 ```javascript
@@ -404,41 +395,16 @@ webpack plugin
     }
   }
 ```
-plugins: [new MyPlugin({})]
 
+vue-loader 实现的功能
 
 webpack-dev-server --inline
 HMR
-
-DeprecationWarning: Tapable.plugin is deprecated. Use new API on `.hooks` instead
-    if (compiler.hooks) {
-      ...
-    }
-
-webpack 打包优化
-https://www.webpackjs.com/plugins/split-chunks-plugin/
+inline和HMR不同，inline是刷新页面，HMR是只刷新修改的部分。换句话说，HMR可以保留页面的状态，这在组件化开发的页面中会很有用。不过在实际开发过程中，不同的状态往往是互相关联的，所以HMR有时也不好用。但这个思想是比inline好些的。
 
 write-file-webpack-plugin 源码了解一下
-
-Tapable
-webpack4 编写插件原先的 tapable.plugin 被废除了，推荐使用 .hooks
-学习可以直接看 html-webpack-plugin 的插件源码
-https://segmentfault.com/a/1190000008060440
-
-vue-loader
-https://vue-loader.vuejs.org/guide/#vue-cli
-
-https://www.cnblogs.com/wangpenghui522/p/6826182.html
-https://segmentfault.com/q/1010000011431180
-https://segmentfault.com/a/1190000011761345
-https://segmentfault.com/a/1190000011761306
-http://www.lixuejiang.me/2017/11/05/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96%E5%B0%8F%E7%BB%93/
-
-inline和HMR不同，inline是刷新页面，HMR是只刷新修改的部分。换句话说，HMR可以保留页面的状态，这在组件化开发的页面中会很有用。不过在实际开发过程中，不同的状态往往是互相关联的，所以HMR有时也不好用。但这个思想是比inline好些的。
 
 webpack-dev-middleware
 https://www.npmjs.com/package/webpack-dev-middleware
 配合 express 和 webpack-hot-milldeware 进行开发，可以将编译后的文件写入内存进行调试。
 值得注意的是这个中间件执行的是编译而不是重载，需要配合 webapck-hot-middleware 才可以进行浏览器重载。
-
-Alt + S	Toggle strikethrough
