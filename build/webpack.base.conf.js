@@ -27,7 +27,7 @@ module.exports = {
     rules: [{
       test: /\.js$/,
       loader: "babel-loader",
-      exclude: /node_modules/
+      include: [resolve('src'), resolve('node_modules/webpack-dev-server/client')]
     }]
   }
 }
