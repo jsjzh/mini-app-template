@@ -21,6 +21,7 @@ module.exports = {
   build: {
     env: require('./prod.env'),
     assetsRoot: resolve('./dist'),
+    assetsSubDirectory: 'static',
     assetsPublicPath: '/'
   }
 }
