@@ -7,6 +7,7 @@ let timer = setInterval(() => {
 }, 500)
 
 console.log("Hello");
+console.log("dev");
 
 
 // if (module.hot) {
