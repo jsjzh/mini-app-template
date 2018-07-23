@@ -14,7 +14,7 @@ module.exports = {
   // 比如 Array.from 这个在就是 ES6 新函数，是 babel-polyfill 做的事儿
   // 而 () => {} 或者 let { name, age } = obj; 这就是 babel-preset-env 做的事情
   entry: {
-    app: "./src/index.js"
+    app: ["babel-polyfill", "./src/index.js"]
   },
   // 输出文件的目录
   output: {
@@ -22,5 +22,12 @@ module.exports = {
     filename: "[name].js",
     publicPath: process.env.NODE_ENV === "production" ?
       config.build.assetsPublicPath : config.dev.assetsPublicPath
+  },
+  module: {
+    rules: [{
+      test: /\.js$/,
+      loader: "babel-loader",
+      exclude: /node_modules/
+    }]
   }
 }
