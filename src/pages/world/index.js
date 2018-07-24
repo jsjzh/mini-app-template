@@ -1,3 +1,6 @@
+import "./index.css";
+
+console.log("world");
 let dom = document.getElementById("app");
 let colorArr = ["red", "green", "blue"];
 // let timer = setInterval(() => {
@@ -5,7 +8,7 @@ let colorArr = ["red", "green", "blue"];
 // }, 500)
 
 let timer = setTimeout(() => {
-let image = require("../static/image/cursor.png")
+  let image = require("assets/image/cursor.png")
   let imageDom = document.getElementById("image_data-url");
   imageDom.src = image;
 }, 1000)

@@ -1,5 +1,6 @@
 var utils = require("./utils")
 var config = require("../config")
+var path = require("path")
 
 module.exports = {
   // webpack 处理打包文件的时候的初始目录
@@ -9,18 +10,20 @@ module.exports = {
   // 就包装了一下 path.resolve(__dirname, "../", file)
   context: utils.resolve("./"),
   // 入口文件，webapck 4.x 默认的就是这儿
-  // 其实对于需要使用 ES6 语法转换的场景，这里还会需要一个 babel-polyfill
-  // 这个是对于一些 ES6 的函数的声明，和 babel-preset-env 进行的语法转义不同
-  // 比如 Array.from 这个在就是 ES6 新函数，是 babel-polyfill 做的事儿
-  // 而 () => {} 或者 let { name, age } = obj; 这就是 babel-preset-env 做的事情
-  entry: {
-    // 使用 babel-polyfill，这会在全局增加一些 ES6 的方法用于调用
-    app: ["babel-polyfill", "./src/index.js"]
+  entry: {},
+  resolve: {
+    // extensions: ['.js', '.vue', '.json'],
+    alias: {
+      // 'vue$': 'vue/dist/vue.esm.js',
+      // '@': resolve('src'),
+      // 'src': path.resolve(__dirname, '../src'),
+      'assets': path.resolve(__dirname, '../src/assets')
+    }
   },
   // 输出文件的目录
   output: {
     path: config.build.assetsRoot,
-    filename: "[name].js",
+    filename: "[name]/index.js",
     publicPath: process.env.NODE_ENV === "production" ?
       config.build.assetsPublicPath : config.dev.assetsPublicPath
   },
@@ -75,5 +78,6 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  plugins: []
 }
