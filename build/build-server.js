@@ -5,6 +5,7 @@ var FriendlyErrorsPlugin = require("friendly-errors-webpack-plugin")
 var portfinder = require("portfinder")
 var devWebpackConfig = require("./webpack.dev.conf");
 var baseWebpackConfig = require("./webpack.base.conf");
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 var path = require("path");
 var fs = require("fs");
@@ -58,6 +59,7 @@ module.exports = new Promise((resolve, reject) => {
       // devWebpackConfig.devServer.port = port
       baseWebpackConfig.entry = _entry
       baseWebpackConfig.mode = "development"
+      baseWebpackConfig.plugins.push(new VueLoaderPlugin())
       baseWebpackConfig.plugins.push(new FriendlyErrorsPlugin({
         clearConsole: true,
         compilationSuccessInfo: {

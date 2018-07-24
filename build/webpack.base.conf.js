@@ -38,16 +38,14 @@ module.exports = {
         loader: "babel-loader",
         include: [utils.resolve('src'), utils.resolve('node_modules/webpack-dev-server/client')]
       },
-      // {
-      //   test: /\.css$/,
-      //   use: [{
-      //     loader: "style-loader"
-      //   }, {
-      //     loader: "css-loader",
-      //   }, {
-      //     loader: "postcss-loader"
-      //   }]
-      // },
+      {
+        test: /\.css$/,
+        use: [{
+          loader: "style-loader"
+        }, {
+          loader: "css-loader",
+        }]
+      },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
