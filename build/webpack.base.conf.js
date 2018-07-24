@@ -1,6 +1,7 @@
 var utils = require("./utils")
 var config = require("../config")
 var path = require("path")
+const vueLoaderConfig = require('./vue-loader.conf')
 
 module.exports = {
   // webpack 处理打包文件的时候的初始目录
@@ -12,11 +13,11 @@ module.exports = {
   // 入口文件，webapck 4.x 默认的就是这儿
   entry: {},
   resolve: {
-    // extensions: ['.js', '.vue', '.json'],
+    extensions: ['.js', '.vue', '.json'],
     alias: {
-      // 'vue$': 'vue/dist/vue.esm.js',
+      'vue$': 'vue/dist/vue.esm.js',
       // '@': resolve('src'),
-      // 'src': path.resolve(__dirname, '../src'),
+      'src': path.resolve(__dirname, '../src'),
       'assets': path.resolve(__dirname, '../src/assets')
     }
   },
@@ -27,32 +28,26 @@ module.exports = {
     publicPath: process.env.NODE_ENV === "production" ?
       config.build.assetsPublicPath : config.dev.assetsPublicPath
   },
-  // 根据语法生成 AST 树，用于描述当前的语句，方便 babel 进行转换
-  // babel-core
-  // webpack 的 babel-loader 插件
-  // babel-loader
-  // .babelirc 中配置
-  // babel-preset-env
-  // babel 所需要转换的语法支持
-  // babel-preset-stage-2
-  // 包含了很多 ES6 的语法
-  // babel-polyfill
   module: {
     rules: [{
+        test: /\.vue$/,
+        loader: 'vue-loader',
+        options: vueLoaderConfig
+      }, {
         test: /\.js$/,
         loader: "babel-loader",
         include: [utils.resolve('src'), utils.resolve('node_modules/webpack-dev-server/client')]
       },
-      {
-        test: /\.css$/,
-        use: [{
-          loader: "style-loader"
-        }, {
-          loader: "css-loader",
-        }, {
-          loader: "postcss-loader"
-        }]
-      },
+      // {
+      //   test: /\.css$/,
+      //   use: [{
+      //     loader: "style-loader"
+      //   }, {
+      //     loader: "css-loader",
+      //   }, {
+      //     loader: "postcss-loader"
+      //   }]
+      // },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',

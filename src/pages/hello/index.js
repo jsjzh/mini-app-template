@@ -1,18 +1,16 @@
-import "./index.css";
+// The Vue build version to load with the `import` command
+// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import Vue from 'vue'
+import App from './App'
 
-console.log("hello");
-let dom = document.getElementById("app");
-let colorArr = ["red", "green", "blue"];
-// let timer = setInterval(() => {
-//   dom.style.color = colorArr[~~(Math.random() * colorArr.length)];
-// }, 500)
+Vue.config.productionTip = false
 
-let timer = setTimeout(() => {
-  let image = require("assets/image/cursor.png")
-  let imageDom = document.getElementById("image_data-url");
-  imageDom.src = image;
-}, 1000)
-
-// if (module.hot) {
-//   module.hot.accept();
-// }
+/* eslint-disable no-new */
+new Vue({
+  el: '#app',
+  router,
+  components: {
+    App
+  },
+  template: '<App/>'
+})
