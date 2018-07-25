@@ -7,21 +7,21 @@ function resolve(file) {
 module.exports = {
   dev: {
     env: require('./dev.env'),
+    assetsPublicPath: '/',
+    assetsSubDirectory: 'static',
     // host: "localhost",
     port: 8080,
     devtool: 'cheap-module-eval-source-map',
     autoOpenBrowser: true,
     errorOverlay: true,
     notifyOnErrors: true,
-    assetsPublicPath: '/',
-    assetsSubDirectory: 'static',
     poll: false,
     proxyTable: {}
   },
   build: {
     env: require('./prod.env'),
     assetsRoot: resolve('./dist'),
-    assetsSubDirectory: 'static',
-    assetsPublicPath: '/'
+    assetsPublicPath: '/',
+    assetsSubDirectory: 'static'
   }
 }

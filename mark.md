@@ -27,3 +27,6 @@ compilerDirectives (使用 compilerOptions.directives)
 
 transformToRequire (现在改名为 transformAssetUrls)
 
+js css html vue 资源（img）
+
+

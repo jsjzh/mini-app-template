@@ -10,8 +10,9 @@ module.exports = {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
-      // '@': resolve('src'),
+      '@': utils.resolve('src'),
       'src': path.resolve(__dirname, '../src'),
+      'common': path.resolve(__dirname, '../src/common'),
       'assets': path.resolve(__dirname, '../src/assets')
     }
   },
@@ -47,7 +48,7 @@ module.exports = {
         )
       },
       {
-        test: /\.css$/,
+        test: /\.(css|scss)$/,
         use: [{
           loader: "vue-style-loader"
         }, {
@@ -55,10 +56,7 @@ module.exports = {
         }, {
           loader: MiniCssExtractPlugin.loader
         }, {
-          loader: "css-loader",
-          options: {
-            importLoaders: 2
-          }
+          loader: 'css-loader',
         }, {
           loader: "postcss-loader"
         }, {
@@ -69,7 +67,7 @@ module.exports = {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         options: {
-          limit: 10000,
+          limit: 1,
           name: utils.assetsPath('img/[name].[hash:7].[ext]')
         }
       },

@@ -7,6 +7,7 @@ var devWebpackConfig = require("./webpack.dev.conf");
 var baseWebpackConfig = require("./webpack.base.conf");
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 
 var path = require("path");
 var fs = require("fs");
@@ -64,6 +65,7 @@ module.exports = new Promise((resolve, reject) => {
       baseWebpackConfig.plugins.push(new MiniCssExtractPlugin({
         filename: '[name]/index.css'
       }))
+      baseWebpackConfig.plugins.push(new OptimizeCSSAssetsPlugin())
       baseWebpackConfig.plugins.push(new FriendlyErrorsPlugin({
         clearConsole: true,
         compilationSuccessInfo: {

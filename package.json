@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/build-server.js",
-    "demo": "webpack --config build/build-server.js",
+    "demo": "webpack --config build/webpack.config.js",
     "start": "npm run dev",
     "build": "node build/build.js"
   },
@@ -23,6 +23,7 @@
     "mini-css-extract-plugin": "^0.4.1",
     "node-notifier": "^5.2.1",
     "node-sass": "^4.9.2",
+    "optimize-css-assets-webpack-plugin": "^5.0.0",
     "portfinder": "^1.0.13",
     "postcss-import": "^11.1.0",
     "postcss-loader": "^2.1.6",
