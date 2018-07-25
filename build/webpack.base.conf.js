@@ -1,16 +1,10 @@
 var utils = require("./utils")
 var config = require("../config")
 var path = require("path")
-const vueLoaderConfig = require('./vue-loader.conf')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 
 module.exports = {
-  // webpack 处理打包文件的时候的初始目录
-  // utils.resolve 其实就是对 nodeJs 的 path 模块的包装
-  // 因为文件都是在 build 目录下
-  // 因为很多地方都要得到项目的初始目录
-  // 就包装了一下 path.resolve(__dirname, "../", file)
   context: utils.resolve("./"),
-  // 入口文件，webapck 4.x 默认的就是这儿
   entry: {},
   resolve: {
     extensions: ['.js', '.vue', '.json'],
@@ -32,18 +26,43 @@ module.exports = {
     rules: [{
         test: /\.vue$/,
         loader: 'vue-loader',
-        options: vueLoaderConfig
+        options: {
+          // 默认
+          transformAssetUrls: {
+            video: ['src', 'poster'],
+            source: 'src',
+            img: 'src',
+            image: 'xlink:href'
+          },
+          // 默认
+          compiler: require('vue-template-compiler')
+        }
       }, {
         test: /\.js$/,
         loader: "babel-loader",
-        include: [utils.resolve('src'), utils.resolve('node_modules/webpack-dev-server/client')]
+        include: [utils.resolve('src'), utils.resolve('node_modules/webpack-dev-server/client')],
+        exclude: file => (
+          /node_modules/.test(file) &&
+          !/\.vue\.js/.test(file)
+        )
       },
       {
         test: /\.css$/,
         use: [{
+          loader: "vue-style-loader"
+        }, {
           loader: "style-loader"
         }, {
+          loader: MiniCssExtractPlugin.loader
+        }, {
           loader: "css-loader",
+          options: {
+            importLoaders: 2
+          }
+        }, {
+          loader: "postcss-loader"
+        }, {
+          loader: "sass-loader"
         }]
       },
       {

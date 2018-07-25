@@ -6,6 +6,7 @@ var portfinder = require("portfinder")
 var devWebpackConfig = require("./webpack.dev.conf");
 var baseWebpackConfig = require("./webpack.base.conf");
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 
 var path = require("path");
 var fs = require("fs");
@@ -60,6 +61,9 @@ module.exports = new Promise((resolve, reject) => {
       baseWebpackConfig.entry = _entry
       baseWebpackConfig.mode = "development"
       baseWebpackConfig.plugins.push(new VueLoaderPlugin())
+      baseWebpackConfig.plugins.push(new MiniCssExtractPlugin({
+        filename: '[name]/index.css'
+      }))
       baseWebpackConfig.plugins.push(new FriendlyErrorsPlugin({
         clearConsole: true,
         compilationSuccessInfo: {
