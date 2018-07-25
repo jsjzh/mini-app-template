@@ -1,5 +1,4 @@
 const path = require("path")
-const webpack = require("webpack")
 
 const FriendlyErrorsPlugin = require("friendly-errors-webpack-plugin")
 const portfinder = require("portfinder")
@@ -12,6 +11,7 @@ const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const notifier = require("node-notifier")
 
+
 const utils = require("./utils")
 const config = require("../config")
 const packageConfig = require('../package.json')
@@ -19,8 +19,6 @@ const packageConfig = require('../package.json')
 const {
   pages
 } = require("../config/pages")
-
-process.env.NODE_ENV = "development";
 
 const isProduction = process.env.NODE_ENV === "production" ? true : false;
 
@@ -50,25 +48,19 @@ function createNotifierCallback() {
     var filename = error.file && error.file.split("!").pop()
     notifier.notify({
       title: packageConfig.name,
-      message: `${severity}: ${error.name}`,
+      message: severity + ": " + error.name,
       subtitle: filename || ""
     })
   }
 }
 
-// 自动添加后缀
-function testSuffix(fileName, type = "js") {
-  return new RegExp(`\.${type}$`).test(fileName) ? fileName : `${fileName}.${type}`
+// 自动添加后缀 TODO
+function testSuffix(file) {
+  return file.test()
 }
 
 const entry = {};
-const plugins = [
-  new webpack.DefinePlugin({
-    "process.env": isProduction ? "'development'" : "'production'"
-  }),
-  new VueLoaderPlugin(),
-  new webpack.HotModuleReplacementPlugin()
-];
+const plugins = [new VueLoaderPlugin()];
 
 pages.forEach(page => {
   let _entryJs = [resolve(`${page.path}/${page.entryJs}`)];
@@ -88,14 +80,6 @@ pages.forEach(page => {
     chunks: [page.name],
   }))
 });
-
-plugins.push(new FriendlyErrorsPlugin({
-  clearConsole: true,
-  compilationSuccessInfo: {
-    messages: [`开发环境启动成功，项目运行在: http://localhost:8080`]
-  },
-  onErrors: createNotifierCallback()
-}))
 
 const webpackConfig = {
   mode: isProduction ? "production" : "development",
@@ -168,32 +152,7 @@ const webpackConfig = {
       }
     }]
   },
-  plugins,
-  devtool: config.dev.devtool,
-  devServer: {
-    clientLogLevel: "warning",
-    hot: true,
-    compress: true,
-    quiet: true,
-    host: "localhost",
-    port: 8080,
-    open: true,
-    overlay: {
-      warnings: false,
-      errors: true
-    },
-    publicPath: "/",
-    watchOptions: {
-      ignored: /node_modules/,
-      poll: false
-    }
-    // historyApiFallback: {
-    //   rewites: [{
-    //     from: /.*/,
-    //     to: path.posix.join(devConfig.assetsPublicPath, "index.html")
-    //   }]
-    // },
-  }
+  plugins
 }
 
 module.exports = webpackConfig
