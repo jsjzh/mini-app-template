@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config build/build-server.js",
-    "demo": "webpack-dev-server --inline --progress --config build/webpack.config.js",
+    "demo": "webpack-dev-server --inline --progress --config build/build-server.js",
+    "dev": "webpack-dev-server --inline --progress --config build/webpack.config.js",
     "start": "npm run dev",
     "build": "node build/build.js"
   },

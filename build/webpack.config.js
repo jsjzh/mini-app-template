@@ -76,10 +76,10 @@ pages.forEach(page => {
     commonJs ? _entryJs.unshift(getCommonJsPath(elem)) : undefined;
   })
   entry[page.name] = ["babel-polyfill"].concat(_entryJs);
-  plugins.push(new MiniCssExtractPlugin({
-    filename: "[name]/index.css",
-    chunkFilename: "[name].css"
-  }))
+  // plugins.push(new MiniCssExtractPlugin({
+  //   filename: "[name]/index.css",
+  //   chunkFilename: "[name].css"
+  // }))
   plugins.push(new HtmlWebpackPlugin({
     title: page.title,
     filename: `${page.name}/index.html`,
@@ -131,8 +131,6 @@ const webpackConfig = {
         loader: "vue-style-loader"
       }, {
         loader: "style-loader"
-      }, {
-        loader: MiniCssExtractPlugin.loader
       }, {
         loader: "css-loader",
         // options: {

@@ -30,3 +30,5 @@ transformToRequire (现在改名为 transformAssetUrls)
 js css html vue 资源（img）
 
 
+MiniCssExtractPlugin 开发环境不可以用 不能自动刷新
+
