@@ -1,2 +1,1 @@
-import "./A.css";
-import "./A.js";
+console.log("success");
