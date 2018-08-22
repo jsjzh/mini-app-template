@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "一个用于展示小项目的脚手架 可以自动处理 js css 的功能 修改 src 中的文件会进行热更新",
   "scripts": {
-    "dev": "npm install && webpack-dev-server --inline --progress --config build/webpack.config.js",
+    "dev": "webpack-dev-server --inline --progress --config build/webpack.config.js",
     "start": "npm run dev"
   },
   "author": "jsjzh <kimimi_king@163.com>",

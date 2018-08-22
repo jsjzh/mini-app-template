@@ -59,7 +59,7 @@ module.exports = {
     hot: true,
     compress: true,
     port: POTR,
-    open: false,
+    open: true,
     overlay: {
       warnings: false,
       errors: true

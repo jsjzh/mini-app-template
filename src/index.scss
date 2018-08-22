@@ -1,9 +1,16 @@
 #app {
-  position: relative;
-  .container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  min-width: 200px;
+  max-width: 767px;
+  margin: 0 auto;
+  padding: 45px;
+}
+
+@media (max-width: 767px) {
+  #app {
+    padding: 15px;
   }
+}
+
+.ct {
+  text-align: center;
 }
