@@ -28,32 +28,49 @@ module.exports = {
   },
   module: {
     rules: [{
-        test: /\.(html)$/,
-        use: [{
-          loader: "raw-loader"
-        }]
+        test: /\.html$/,
+        use: [
+          "raw-loader"
+        ]
       }, {
-        test: /\.(js)$/,
+        test: /\.js$/,
         loader: "babel-loader",
         exclude: /node_modules/,
         include: [utils.resolve("src"), utils.resolve("node_modules/webpack-dev-server/client")]
       },
       {
-        test: /\.(scss|css|sass)$/,
-        use: [
-          // creates style nodes from JS strings
-          "style-loader",
-          // translates CSS into CommonJS
-          {
-            loader: "css-loader",
-            options: {
-              importLoaders: 2
-            }
-          },
-          // compiles Sass to CSS, using Node Sass by default
-          "sass-loader",
-          "postcss-loader"
-        ]
+        test: /\.css$/,
+        use: [{
+          loader: "style-loader"
+        }, {
+          loader: "css-loader",
+        }, {
+          loader: "postcss-loader"
+        }]
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        loader: "url-loader",
+        options: {
+          limit: 10000,
+          name: utils.assetsPath("img/[name].[hash:7].[ext]")
+        }
+      },
+      {
+        test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+        loader: "url-loader",
+        options: {
+          limit: 10000,
+          name: utils.assetsPath("media/[name].[hash:7].[ext]")
+        }
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        loader: "url-loader",
+        options: {
+          limit: 10000,
+          name: utils.assetsPath("fonts/[name].[hash:7].[ext]")
+        }
       }
     ]
   },
@@ -62,7 +79,7 @@ module.exports = {
     hot: true,
     compress: true,
     port: POTR,
-    open: false,
+    open: true,
     overlay: {
       warnings: false,
       errors: true
@@ -84,7 +101,7 @@ module.exports = {
     new FriendlyErrorsPlugin({
       clearConsole: true,
       compilationSuccessInfo: {
-        messages: [`(╯‵□′)╯︵ http://${IP}:${POTR} 你的项目在这里 请查收`]
+        messages: [`开发环境启动成功，项目运行在: http://${IP}:${POTR}`]
       },
       onErrors: utils.createNotifierCallback()
     })

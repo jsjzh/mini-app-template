@@ -1,13 +1,16 @@
 import "static/css/normalize.css";
+import "./index.scss";
 
-import * as index from "./index.html";
-import "./index.css";
-
-console.log(index);
-
+const index = require("./index.html");
 const app = document.getElementById("app");
 app.innerHTML = index;
+// -------------
+// 开始写项目代码
 
+
+
+
+// -------------
 if (module.hot) {
   module.hot.accept();
 }
