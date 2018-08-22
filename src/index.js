@@ -3,17 +3,12 @@
 import "static/css/normalize.css";
 import "static/css/reset.css";
 import "static/css/github-markdown.css";
+import "./index.scss";
 
 const app = document.getElementById("app");
 app.innerHTML = require("./index.html");
-
-import "./index.scss";
-
 // -------------
 // 开始写项目代码
-
-
-
 
 // -------------
 if (module.hot) {

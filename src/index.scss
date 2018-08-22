@@ -14,3 +14,13 @@
 .ct {
   text-align: center;
 }
+
+#change-image {
+  animation: 1s image-animate infinite;
+}
+
+@keyframes image-animate {
+  100% {
+    transform: rotate(360deg)
+  }
+}
