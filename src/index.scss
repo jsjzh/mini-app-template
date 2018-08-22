@@ -3,20 +3,28 @@
   max-width: 767px;
   margin: 0 auto;
   padding: 45px;
+  .ct {
+    text-align: center;
+  }
+  .header-image {
+    width: 35px;
+    height: 35px
+  }
+  .fr {
+    float: right
+  }
+  .fl {
+    float: left
+  }
+  #change-image {
+    animation: 1s image-animate infinite;
+  }
 }
 
 @media (max-width: 767px) {
   #app {
     padding: 15px;
   }
-}
-
-.ct {
-  text-align: center;
-}
-
-#change-image {
-  animation: 1s image-animate infinite;
 }
 
 @keyframes image-animate {
