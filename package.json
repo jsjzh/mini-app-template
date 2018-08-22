@@ -1,9 +1,9 @@
 {
   "name": "my-webpack-template",
   "version": "1.0.0",
-  "description": "一个用于展示小项目的脚手架 拥有处理 js css file 热更新",
+  "description": "一个用于展示小项目的脚手架 可以自动处理 js css 的功能 修改 src 中的文件会进行热更新",
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --color --config build/webpack.config.js",
+    "dev": "npm install && webpack-dev-server --inline --progress --config build/webpack.config.js",
     "start": "npm run dev"
   },
   "author": "jsjzh <kimimi_king@163.com>",

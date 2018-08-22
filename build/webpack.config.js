@@ -5,7 +5,7 @@ const FriendlyErrorsPlugin = require("friendly-errors-webpack-plugin");
 const utils = require("./utils");
 
 const IP = utils.getIPAdress();
-const POTR = 8081;
+const POTR = 8888;
 
 module.exports = {
   context: utils.resolve("./"),
@@ -41,16 +41,13 @@ module.exports = {
       {
         test: /\.(scss|css|sass)$/,
         use: [
-          // creates style nodes from JS strings
           "style-loader",
-          // translates CSS into CommonJS
           {
             loader: "css-loader",
             options: {
               importLoaders: 2
             }
           },
-          // compiles Sass to CSS, using Node Sass by default
           "sass-loader",
           "postcss-loader"
         ]
@@ -84,7 +81,7 @@ module.exports = {
     new FriendlyErrorsPlugin({
       clearConsole: true,
       compilationSuccessInfo: {
-        messages: [`(╯‵□′)╯︵ http://${IP}:${POTR} 你的项目在这里 请查收`]
+        messages: [`你的项目在这里吼~ (╯‵□′)╯︵ http://${IP}:${POTR}`]
       },
       onErrors: utils.createNotifierCallback()
     })
