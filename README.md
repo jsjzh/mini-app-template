@@ -1,4 +1,4 @@
-# my-webpack-template
+# mini-app-template
 
 ## 介绍
 在平时的项目中会碰到一些好的插件或者框架，想写下来当作一个小项目小 demo，遂想搭建一个可以自动处理 js html css 有热更新功能的 webpack 框架，不用于生产环境，暂时只有开发环境的配置。
