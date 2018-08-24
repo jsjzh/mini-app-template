@@ -9,6 +9,7 @@
 
 ## mini-app 大合集
 - [mini-app-template](https://github.com/jsjzh/mini-app-template) 这就是该项目
+- [mini-app-tiny-code](https://github.com/jsjzh/mini-app-tiny-code) 一个收集 js 好玩的代码，好玩的面试题的地方
 
 
 ## 我该如何开始
@@ -41,7 +42,7 @@ $ git push -u origin master
 
 最后，你就可以在这个项目下快乐的写自己的 `mini-app` 啦，撒花 万岁 `~\(≧▽≦)/~`
 
-如果可以的话，请告诉我你的项目地址，我就可以把他们添加到我的 mini-app 列表中了。
+如果可以的话，请告诉我你的项目地址，我就可以把他们添加到我的 `mini-app` 列表中了。
 
 代码如人生，我甘之如饴。
 
