@@ -1,5 +1,5 @@
 {
-  "name": "my-webpack-template",
+  "name": "mini-app-template",
   "version": "1.0.0",
   "description": "一个用于展示小项目的脚手架 可以自动处理 js css 的功能 修改 src 中的文件会进行热更新",
   "scripts": {
