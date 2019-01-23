@@ -1,5 +1,5 @@
 // require('./check-versions')()
-process.env.NODE_ENV = 'development'
+process.env.NODE_ENV = 'development';
 
 var config = require('../config');
 var utils = require('./utils');
@@ -38,20 +38,20 @@ var ip = utils.getIPAdress();
 var app = express();
 // 这里就是相当与命令行执行了 webpack --config webpack.config.js
 // 采用文件的形式执行不仅可以方便使用中间件而且也更加直观
-var compiler = webpack(webpackConfig)
+var compiler = webpack(webpackConfig);
 
 // 配置 webpack-dev-middleware 中间件
 // https://segmentfault.com/a/1190000011761306
 var devMiddleware = webpackDevMiddlerware(compiler, {
   publicPath: webpackConfig.output.publicPath,
-  quiet: true
-})
+  quiet: true,
+});
 // 配置 webpack-hot-middleware 中间件
 // https://segmentfault.com/a/1190000011761345
 var hotMiddleware = webpackHotMiddlerware(compiler, {
   log: false,
-  heartbeat: 2000
-})
+  heartbeat: 2000,
+});
 
 // TODO
 // force page reload when html-webpack-plugin template changes
@@ -69,14 +69,14 @@ var hotMiddleware = webpackHotMiddlerware(compiler, {
 // app.use(require('connect-history-api-fallback')())
 
 // 将中间件分别装载
-app.use(hotMiddleware)
-app.use(devMiddleware)
+app.use(hotMiddleware);
+app.use(devMiddleware);
 // 设置搭建的 web 服务器可以访问的静态文件的地址
 // 相关文档应该参考 express
 // http://www.expressjs.com.cn/starter/static-files.html
-app.use(express.static("static"));
+app.use(express.static('static'));
 // 在 compiler 之后执行监听端口和打开浏览器的操作
 devMiddleware.waitUntilValid(() => {
-  if (autoOpenBrowser) opn(`http://${ip}:${port}`)
-  app.listen(port, ip)
-})
+  if (autoOpenBrowser) opn(`http://${ip}:${port}`);
+  app.listen(port, ip);
+});

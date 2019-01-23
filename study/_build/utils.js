@@ -1,15 +1,15 @@
-'use strict'
-var path = require('path')
-var os = require('os')
-const packageConfig = require('../package.json')
-var config = require('../config')
+'use strict';
+var path = require('path');
+var os = require('os');
+const packageConfig = require('../package.json');
+var config = require('../config');
 // var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-exports.resolve = function (file) {
-  return path.resolve(__dirname, "../", file)
-}
+exports.resolve = function(file) {
+  return path.resolve(__dirname, '../', file);
+};
 
-exports.getIPAdress = function () {
+exports.getIPAdress = function() {
   var interfaces = os.networkInterfaces();
   for (var devName in interfaces) {
     var iface = interfaces[devName];
@@ -20,29 +20,30 @@ exports.getIPAdress = function () {
       }
     }
   }
-}
+};
 
-exports.createNotifierCallback = function () {
-  var notifier = require('node-notifier')
+exports.createNotifierCallback = function() {
+  var notifier = require('node-notifier');
   return (severity, errors) => {
-    if (severity !== 'error') return
-    var error = errors[0]
-    var filename = error.file && error.file.split('!').pop()
+    if (severity !== 'error') return;
+    var error = errors[0];
+    var filename = error.file && error.file.split('!').pop();
 
     notifier.notify({
       title: packageConfig.name,
       message: severity + ': ' + error.name,
-      subtitle: filename || ''
-    })
-  }
-}
+      subtitle: filename || '',
+    });
+  };
+};
 
-exports.assetsPath = function (_path) {
-  const assetsSubDirectory = process.env.NODE_ENV === 'production' ?
-    config.build.assetsSubDirectory :
-    config.dev.assetsSubDirectory
-  return path.posix.join(assetsSubDirectory, _path)
-}
+exports.assetsPath = function(_path) {
+  const assetsSubDirectory =
+    process.env.NODE_ENV === 'production'
+      ? config.build.assetsSubDirectory
+      : config.dev.assetsSubDirectory;
+  return path.posix.join(assetsSubDirectory, _path);
+};
 
 // exports.assetsPath = function (_path) {
 //   var assetsSubDirectory = process.env.NODE_ENV === 'production' ?
