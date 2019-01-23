@@ -1,7 +1,7 @@
-var path = require('path');
+var path = require('path')
 
 function resolve(file) {
-  return path.resolve(__dirname, '../', file);
+  return path.resolve(__dirname, '../', file)
 }
 
 module.exports = {
@@ -16,12 +16,12 @@ module.exports = {
     assetsPublicPath: '/',
     assetsSubDirectory: 'static',
     poll: false,
-    proxyTable: {},
+    proxyTable: {}
   },
   build: {
     env: require('./prod.env'),
     assetsRoot: resolve('./dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
-  },
-};
+    assetsPublicPath: '/'
+  }
+}

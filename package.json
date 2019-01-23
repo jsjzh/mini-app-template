@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "一个用于展示小项目的脚手架 可以自动处理 js css 的功能 修改 src 中的文件会进行热更新",
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config build/webpack.config.js",
-    "start": "npm run dev"
+    "build": "node ./build/build.js --env=production",
+    "dev:new": "node ./build/build.js --env=development",
+    "dev:old": "webpack-dev-server --inline --progress --config build/webpack.config.js",
+    "start": "npm run dev:new"
   },
   "author": "jsjzh <kimimi_king@163.com>",
   "license": "ISC",
@@ -25,7 +27,8 @@
     "style-loader": "^0.21.0",
     "webpack": "^4.16.1",
     "webpack-cli": "^3.0.8",
-    "webpack-dev-server": "^3.1.4"
+    "webpack-dev-server": "^3.1.4",
+    "yargs": "^12.0.5"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0"

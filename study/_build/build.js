@@ -1,4 +1,4 @@
 // require('./check-versions')()
-process.env.NODE_ENV = 'production';
+process.env.NODE_ENV = 'production'
 
-var config = require('../config');
+var config = require('../config')

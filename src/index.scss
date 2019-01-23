@@ -8,13 +8,13 @@
   }
   .header-image {
     width: 35px;
-    height: 35px
+    height: 35px;
   }
   .fr {
-    float: right
+    float: right;
   }
   .fl {
-    float: left
+    float: left;
   }
   #change-image {
     animation: 1s image-animate infinite;
@@ -29,6 +29,6 @@
 
 @keyframes image-animate {
   100% {
-    transform: rotate(360deg)
+    transform: rotate(360deg);
   }
 }
