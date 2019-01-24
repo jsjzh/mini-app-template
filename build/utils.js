@@ -1,5 +1,6 @@
 const path = require('path')
 const os = require('os')
+const config = require('../config')
 const packageConfig = require('../package.json')
 const notifier = require('node-notifier')
 
@@ -8,7 +9,10 @@ exports.resolve = function(dir) {
 }
 
 exports.assetsPath = function(_path) {
-  return path.posix.join('static', _path)
+  const assetsSubDirectory =
+    process.env.NODE_ENV === 'production' ? config.build.assetsSubDirectory : config.dev.assetsSubDirectory
+
+  return path.posix.join(assetsSubDirectory, _path)
 }
 
 exports.getIPAdress = function() {
