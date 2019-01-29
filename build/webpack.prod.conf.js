@@ -17,4 +17,6 @@ function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
-module.exports = merge(webpackBaseConfig, {})
+module.exports = merge(webpackBaseConfig, {
+  mode: 'production'
+})
