@@ -6,6 +6,7 @@
 // import './index.scss'
 
 const app = document.getElementById('app')
+console.log(app)
 // app.innerHTML = require('./index.html')
 // -------------
 // 开始写项目代码
