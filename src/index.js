@@ -5,6 +5,7 @@
 // import 'static/css/github-markdown.css'
 // import './index.scss'
 
+import image from './404.png'
 const app = document.getElementById('app')
 // app.innerHTML = require('./index.html')
 // -------------
